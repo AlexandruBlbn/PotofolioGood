@@ -1,0 +1,9 @@
+User's request for the contents of the file: /portfolio-website/portfolio-website/public/robots.txt
+
+User's project specification indicates that this file provides instructions for web crawlers. Here are the contents for the robots.txt file:
+
+User-agent: *
+Disallow: /src/
+Disallow: /public/
+Disallow: /node_modules/
+Allow: /
