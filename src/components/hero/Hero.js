@@ -47,7 +47,7 @@ const Hero = () => {
             className="title"
           >
             <span className="title-prefix">Electrical Engineering</span>
-            <span className="title-divider"> & </span>
+            <span className="title-divider">&</span>
             <span className="title-suffix">Computer Science Student</span>
           </motion.h2>
           
@@ -92,7 +92,7 @@ const Hero = () => {
             <span className="code-title">ml_project.py</span>
           </div>
           <pre className="code-content">
-            <code ref={codeRef}>
+            <code ref={codeRef} style={{ minHeight: "150px", display: "block", fontSize: "0.85rem", maxWidth: "100%" }}>
               {generateRandomCode()}
             </code>
           </pre>
