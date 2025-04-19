@@ -46,7 +46,7 @@ const About = () => {
         className="section-content"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
+        viewport={{ once: true, amount: 0.05, margin: "100px 0px 0px 0px" }}
         variants={containerVariants}
       >
         <div className="section-header">
@@ -171,9 +171,9 @@ const About = () => {
               whileHover={{ y: -10, boxShadow: '0 10px 30px rgba(0, 176, 255, 0.2)' }}
             >
               <div className="spec-icon"><FaBolt /></div>
-              <h4 className="spec-name">Scalable Systems</h4>
+              <h4 className="spec-name">Web Development</h4>
               <p className="spec-description">
-                Building high-performance backends that handle millions of requests with minimal latency.
+                Building responsive and interactive web applications using modern frameworks and libraries.
               </p>
             </motion.div>
             
@@ -182,9 +182,9 @@ const About = () => {
               whileHover={{ y: -10, boxShadow: '0 10px 30px rgba(0, 176, 255, 0.2)' }}
             >
               <div className="spec-icon"><FaDatabase /></div>
-              <h4 className="spec-name">Data Pipeline Architecture</h4>
+              <h4 className="spec-name">CRUD Applications</h4>
               <p className="spec-description">
-                Designing ETL processes and data workflows for machine learning applications.
+                Developing full-stack applications with robust data management and user-friendly interfaces.
               </p>
             </motion.div>
           </div>

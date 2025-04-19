@@ -116,7 +116,8 @@ const ProjectsGrid = () => {
             className="projects-grid"
             variants={containerVariants}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.05, margin: "100px 0px 0px 0px" }}
           >
             {displayedProjects.map((project) => (
               <ProjectCard key={project.id} project={project} />

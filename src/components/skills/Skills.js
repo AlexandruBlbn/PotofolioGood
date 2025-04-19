@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { skills } from '../../data/skills';
 import Chart from 'chart.js/auto';
 import { Doughnut } from 'react-chartjs-2';
@@ -10,6 +10,7 @@ const Skills = () => {
   const [filteredSkills, setFilteredSkills] = useState(skills);
   const [skillDistribution, setSkillDistribution] = useState({});
   const chartContainerRef = useRef(null);
+  const [key, setKey] = useState(0); // Add a key to force re-render
   
   // Extract unique categories
   const categories = ['all', ...new Set(skills.map(skill => skill.category))];
@@ -17,10 +18,13 @@ const Skills = () => {
   useEffect(() => {
     // Filter skills based on active category
     if (activeCategory === 'all') {
-      setFilteredSkills(skills);
+      setFilteredSkills([...skills]); // Create a new array to ensure state change
     } else {
       setFilteredSkills(skills.filter(skill => skill.category === activeCategory));
     }
+
+    // Force re-render of component by updating key
+    setKey(prevKey => prevKey + 1);
 
     // Calculate skill distribution for chart
     const distribution = {};
@@ -141,40 +145,46 @@ const Skills = () => {
         </div>
       </div>
 
-      <motion.div 
-        className="skills-grid"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {filteredSkills.map((skill, index) => (
-          <motion.div 
-            key={index}
-            className="skill-card"
-            variants={itemVariants}
-            whileHover={{ 
-              scale: 1.03, 
-              boxShadow: '0 8px 30px rgba(0, 176, 255, 0.2)',
-              transition: { duration: 0.2 } 
-            }}
-          >
-            <div className="skill-icon">{skill.icon}</div>
-            <h3 className="skill-name">{skill.name}</h3>
-            <div className="skill-category-tag">{skill.category}</div>
-            <div className="skill-proficiency">
-              <div className="progress-bar">
-                <motion.div
-                  className="progress-fill"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${skill.level}%` }}
-                  transition={{ duration: 1, delay: 0.2 }}
-                />
+      <AnimatePresence mode="wait">
+        <motion.div 
+          key={key}
+          className="skills-grid"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          exit={{ opacity: 0 }}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.05, margin: "100px 0px 0px 0px" }}
+        >
+          {filteredSkills.map((skill, index) => (
+            <motion.div 
+              key={index}
+              className="skill-card"
+              variants={itemVariants}
+              whileHover={{ 
+                scale: 1.03, 
+                boxShadow: '0 8px 30px rgba(0, 176, 255, 0.2)',
+                transition: { duration: 0.2 } 
+              }}
+            >
+              <div className="skill-icon">{skill.icon}</div>
+              <h3 className="skill-name">{skill.name}</h3>
+              <div className="skill-category-tag">{skill.category}</div>
+              <div className="skill-proficiency">
+                <div className="progress-bar">
+                  <motion.div
+                    className="progress-fill"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${skill.level}%` }}
+                    transition={{ duration: 1, delay: 0.2 }}
+                  />
+                </div>
+                <span className="progress-percentage">{skill.level}%</span>
               </div>
-              <span className="progress-percentage">{skill.level}%</span>
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </AnimatePresence>
     </section>
   );
 };
