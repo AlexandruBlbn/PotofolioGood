@@ -19,6 +19,7 @@
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@react-three/fiber": "^8.13.5",
     "axios": "^1.4.0",
     "chart.js": "^4.3.3",

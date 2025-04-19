@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 import { FaUser, FaEnvelope, FaComment, FaPaperPlane, FaSpinner, FaCheck, FaExclamationTriangle, FaPhone, FaGithub, FaLinkedinIn, FaTwitter, FaMapMarkerAlt, FaBriefcase, FaLaptopCode, FaCodeBranch } from 'react-icons/fa';
 
 const ContactForm = () => {
+  const formRef = useRef(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -25,31 +27,52 @@ const ContactForm = () => {
     e.preventDefault();
     setStatus(prevStatus => ({ ...prevStatus, submitting: true }));
     
-    // This would be replaced with your actual form submission logic
-    setTimeout(() => {
-      setStatus({
-        submitted: true,
-        submitting: false,
-        info: { error: false, msg: "Message sent successfully!" }
-      });
-      
-      // Reset form after success
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-      
-      // Reset status after 5 seconds
-      setTimeout(() => {
+    const templateParams = {
+      name: formData.name,
+      email: formData.email,
+      subject: formData.subject,
+      message: formData.message
+    };
+    
+    // EmailJS service configuration using environment variables
+    const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+    const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+    const userId = process.env.REACT_APP_EMAILJS_USER_ID;
+
+    // Using send method instead of sendForm for more reliable delivery
+    emailjs.send(serviceId, templateId, templateParams, userId)
+      .then((result) => {
+        console.log('Email successfully sent!', result);
+        setStatus({
+          submitted: true,
+          submitting: false,
+          info: { error: false, msg: "Message sent successfully! I'll get back to you soon." }
+        });
+        
+        // Reset form after success
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+        
+        // Reset status after 5 seconds
+        setTimeout(() => {
+          setStatus({
+            submitted: false,
+            submitting: false,
+            info: { error: false, msg: null }
+          });
+        }, 5000);
+      }, (error) => {
+        console.error('EmailJS error details:', error);
         setStatus({
           submitted: false,
           submitting: false,
-          info: { error: false, msg: null }
+          info: { error: true, msg: "Something went wrong. Please try again later." }
         });
-      }, 5000);
-    }, 1000);
+      });
   };
 
   const contactReasons = [
@@ -186,6 +209,7 @@ const ContactForm = () => {
           </motion.div>
           
           <motion.form 
+            ref={formRef}
             className="contact-form glass-card"
             onSubmit={handleSubmit}
             variants={itemVariants}
