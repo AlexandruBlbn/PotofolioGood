@@ -86,19 +86,21 @@ const ContactForm = () => {
         viewport={{ once: true, amount: 0.2 }}
         variants={containerVariants}
       >
-        <motion.h2 
-          className="section-title"
-          variants={itemVariants}
-        >
-          Get In Touch
-        </motion.h2>
-        
-        <motion.p 
-          className="section-subtitle"
-          variants={itemVariants}
-        >
-          Interested in collaborating on ML projects or need a robust backend solution? Let's connect!
-        </motion.p>
+        <div className="section-header">
+          <motion.h2 
+            className="section-title"
+            variants={itemVariants}
+          >
+            Get In Touch
+          </motion.h2>
+          
+          <motion.p 
+            className="section-subtitle"
+            variants={itemVariants}
+          >
+            Interested in collaborating on ML projects or need a robust backend solution? Let's connect!
+          </motion.p>
+        </div>
         
         <div className="contact-container">
           <motion.div 

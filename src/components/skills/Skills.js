@@ -102,14 +102,16 @@ const Skills = () => {
 
   return (
     <section id="skills" className="skills-section">
-      <motion.h2 
-        className="section-title"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        Technical Expertise
-      </motion.h2>
+      <div className="section-header">
+        <motion.h2 
+          className="section-title"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          Technical Expertise
+        </motion.h2>
+      </div>
       
       <div className="skills-overview">
         <div className="skills-distribution-chart">

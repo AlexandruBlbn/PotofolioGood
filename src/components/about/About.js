@@ -49,12 +49,14 @@ const About = () => {
         viewport={{ once: true, amount: 0.2 }}
         variants={containerVariants}
       >
-        <motion.h2 
-          className="section-title"
-          variants={itemVariants}
-        >
-          About Me
-        </motion.h2>
+        <div className="section-header">
+          <motion.h2 
+            className="section-title"
+            variants={itemVariants}
+          >
+            About Me
+          </motion.h2>
+        </div>
         
         <div className="about-content">
           <motion.div className="about-text" variants={itemVariants}>

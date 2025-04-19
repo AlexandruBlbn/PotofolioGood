@@ -1,29 +1,41 @@
 import React, { useEffect, useRef } from 'react';
 import ParticlesBg from 'particles-bg';
 import { motion } from 'framer-motion';
+import Typed from 'typed.js';
 
 const Hero = () => {
   const codeRef = useRef(null);
+  const typedRef = useRef(null);
+
+  // Using proper indentation and formatting to match your screenshot
+  const codeSnippets = [
+    `class CNN(nn.Module):\n  def __init__(self):\n    super().__init__(),\n    self.conv1 = nn.Conv2d(1, 32, 3),\n    self.relu = nn.ReLU(),\n    self.pool = nn.MaxPool2d(2)`,
+    `def train_model(X, y):\n  model = CNN()\n  optimizer = torch.optim.Adam(model.parameters())\n  model.fit(X, y)\n  return model`,
+    `model.eval()\nwith torch.no_grad():\n  for data, target in dataloader:\n    data = data.to(device)\n    output = model(data)\n    pred = output.argmax(dim=1)`
+  ];
 
   useEffect(() => {
     if (codeRef.current) {
-      const codeAnimation = setInterval(() => {
-        const randomCode = generateRandomCode();
-        codeRef.current.innerHTML = randomCode;
-      }, 3000);
-      
-      return () => clearInterval(codeAnimation);
+      // Initialize Typed instance with improved settings
+      typedRef.current = new Typed(codeRef.current, {
+        strings: codeSnippets,
+        typeSpeed: 40, // slightly slower for better readability
+        backSpeed: 25, 
+        startDelay: 1000,
+        backDelay: 3000,
+        loop: true,
+        showCursor: false, // Hide the cursor
+        contentType: 'text' // explicitly set content type
+      });
+
+      // Clean up Typed instance
+      return () => {
+        if (typedRef.current) {
+          typedRef.current.destroy();
+        }
+      };
     }
   }, []);
-
-  const generateRandomCode = () => {
-    const codeSnippets = [
-      `def train_model(X, y):\n  model = CNN()\n  model.fit(X, y)\n  return model`,
-      `class CNN(nn.Module):\n  def __init__(self):\n    super().__init__(),\n    self.conv1 = nn.Conv2d(1, 32, 3),\n    self.relu = nn.ReLU(),\n    self.pool = nn.MaxPool2d(2)`,
-      `model.eval()\n with torch.no_grad():\n  for batch_idx, (data, target) in enumerate(valloader):\n    data, target = data.to(device), target.to(device)\n    output = model(data)\n    loss = criterion(output, target)`,
-    ];
-    return codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-  };
 
   return (
     <section id="hero" className="hero">
@@ -48,7 +60,7 @@ const Hero = () => {
           >
             <span className="title-prefix">Electrical Engineering</span>
             <span className="title-divider">&</span>
-            <span className="title-suffix">Computer Science Student</span>
+            <span className="title-suffix">Computer Science <span className="title-divider">Student</span></span>
           </motion.h2>
           
           <motion.p
@@ -92,9 +104,19 @@ const Hero = () => {
             <span className="code-title">ml_project.py</span>
           </div>
           <pre className="code-content">
-            <code ref={codeRef} style={{ minHeight: "150px", display: "block", fontSize: "0.85rem", maxWidth: "100%" }}>
-              {generateRandomCode()}
-            </code>
+            <code 
+              ref={codeRef} 
+              className="code-typing"
+              style={{ 
+                minHeight: "150px", 
+                display: "block", 
+                fontSize: "0.85rem", 
+                maxWidth: "100%",
+                fontFamily: "var(--font-family-code)",
+                whiteSpace: "pre",
+                color: "#e0e0e0"
+              }}
+            ></code>
           </pre>
         </div>
       </motion.div>

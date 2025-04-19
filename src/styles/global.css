@@ -184,18 +184,10 @@ section {
   position: absolute;
   bottom: -10px;
   left: 0;
-  width: 80px;
+  width: 100%; /* Full width of the title */
   height: 4px;
   background: var(--primary-color);
   border-radius: 2px;
-}
-
-.section-subtitle {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto var(--space-8);
-  color: var(--text-secondary);
-  font-size: var(--font-size-lg);
 }
 
 /* Header styles */
@@ -564,6 +556,7 @@ section {
   color: var(--text-secondary);
 }
 
+/* Improve code typing container appearance */
 .code-content {
   padding: var(--space-4);
   max-height: 300px;
@@ -575,6 +568,57 @@ section {
   color: var(--text-primary);
   white-space: pre-wrap; /* Allow code to wrap */
   word-break: break-word; /* Break words to prevent overflow */
+  position: relative;
+}
+
+/* Fix code formatting to ensure proper cursor alignment */
+.code-content code {
+  background-color: transparent;
+  line-height: 1.6;
+  display: inline-block;
+  vertical-align: top;
+  font-family: var(--font-family-code);
+  position: relative;
+}
+
+/* Typed.js cursor styling */
+.typed-cursor {
+  color: var(--primary-light);
+  font-weight: normal;
+  font-size: 1rem;
+  opacity: 1;
+  animation: blink 0.7s infinite;
+  -webkit-animation: blink 0.7s infinite;
+  position: relative;
+  top: 0;
+  line-height: inherit;
+}
+
+/* Code typing specific styles */
+.code-typing {
+  background-color: transparent !important;
+  padding: 0 !important;
+  font-family: var(--font-family-code) !important;
+}
+
+/* Fix typed.js cursor positioning */
+.typed-cursor {
+  color: var(--primary-light);
+  font-size: 1.1rem !important;
+  line-height: 1.5 !important;
+  opacity: 1;
+  margin-left: 1px !important;
+  animation: blink 0.7s infinite !important;
+  -webkit-animation: blink 0.7s infinite !important;
+  display: inline-block;
+  vertical-align: top;
+  position: relative !important;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 /* Skills Section */
@@ -809,6 +853,10 @@ section {
 .section-header {
   text-align: center;
   margin-bottom: var(--space-8);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .projects-filters {
@@ -977,14 +1025,19 @@ section {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   color: var(--text-primary);
-  z-index: 1;
+  z-index: 2;
+  background-color: rgba(10, 25, 41, 0.7); /* Semi-transparent background */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .featured-badge {
   position: absolute;
   top: var(--space-3);
-  right: var (--space-3);
-  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  right: var(--space-3);
+  background: linear-gradient(to right, rgba(0, 176, 255, 0.7), rgba(106, 17, 203, 0.7));
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
@@ -993,11 +1046,11 @@ section {
   display: flex;
   align-items: center;
   gap: var(--space-1);
-  z-index: 1;
-}
-
-.featured-icon {
-  font-size: 1.2em;
+  z-index: 2;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .project-content {
@@ -1494,7 +1547,7 @@ section {
 .spec-name {
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
-  margin-bottom: var(--space-3);
+  margin-bottom: var (--space-3);
   color: var(--primary-light);
 }
 
