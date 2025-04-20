@@ -1,16 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { skills } from '../../data/skills';
-import Chart from 'chart.js/auto';
-import { Doughnut } from 'react-chartjs-2';
 import { FaBrain, FaCode, FaChartPie, FaLayerGroup } from 'react-icons/fa';
 
 const Skills = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [filteredSkills, setFilteredSkills] = useState(skills);
-  const [skillDistribution, setSkillDistribution] = useState({});
-  const chartContainerRef = useRef(null);
-  const [key, setKey] = useState(0); // Add a key to force re-render
+  const [key, setKey] = useState(0);
   
   // Extract unique categories
   const categories = ['all', ...new Set(skills.map(skill => skill.category))];
@@ -18,62 +14,14 @@ const Skills = () => {
   useEffect(() => {
     // Filter skills based on active category
     if (activeCategory === 'all') {
-      setFilteredSkills([...skills]); // Create a new array to ensure state change
+      setFilteredSkills([...skills]);
     } else {
       setFilteredSkills(skills.filter(skill => skill.category === activeCategory));
     }
 
     // Force re-render of component by updating key
     setKey(prevKey => prevKey + 1);
-
-    // Calculate skill distribution for chart
-    const distribution = {};
-    skills.forEach(skill => {
-      if (!distribution[skill.category]) {
-        distribution[skill.category] = 0;
-      }
-      distribution[skill.category]++;
-    });
-    setSkillDistribution(distribution);
   }, [activeCategory]);
-
-  // Chart data for skill distribution
-  const chartData = {
-    labels: Object.keys(skillDistribution),
-    datasets: [
-      {
-        data: Object.values(skillDistribution),
-        backgroundColor: [
-          '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#7CFC00'
-        ],
-        borderWidth: 0,
-      },
-    ],
-  };
-
-  const chartOptions = {
-    plugins: {
-      legend: {
-        position: 'bottom',
-        labels: {
-          color: '#e0e0e0',
-          font: {
-            family: 'Inter, sans-serif',
-            size: 12
-          },
-          boxWidth: 10,
-          padding: 10
-        }
-      }
-    },
-    cutout: '70%',
-    animation: {
-      animateRotate: true,
-      animateScale: true
-    },
-    responsive: true,
-    maintainAspectRatio: true
-  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -93,15 +41,18 @@ const Skills = () => {
     }
   };
 
-  const getCategoryIcon = (category) => {
-    const icons = {
-      'Languages': <FaCode />,
-      'Machine Learning': <FaBrain />,
-      'Data Science': <FaChartPie />,
-      'Frontend': <FaLayerGroup />,
-      'Backend': <FaLayerGroup />
-    };
-    return icons[category] || <FaCode />;
+  // Get the correct color class for the skill level
+  const getLevelColorClass = (level) => {
+    if (level >= 90) return "expert";
+    if (level >= 75) return "advanced";
+    return "intermediate";
+  };
+
+  // Get the text label for the skill level
+  const getLevelLabel = (level) => {
+    if (level >= 90) return "EXPERT";
+    if (level >= 75) return "ADVANCED";
+    return "INTERMEDIATE";
   };
 
   return (
@@ -117,31 +68,18 @@ const Skills = () => {
         </motion.h2>
       </div>
       
-      <div className="skills-overview">
-        <div className="skills-distribution-chart">
-          <h3 className="chart-title">Skill Distribution</h3>
-          <div className="chart-container" ref={chartContainerRef}>
-            <Doughnut data={chartData} options={chartOptions} />
-          </div>
-        </div>
-        
-        <div className="skills-category-nav">
-          <h3>Explore My Skills</h3>
-          <div className="category-tabs">
-            {categories.map((category, index) => (
-              <button
-                key={index}
-                className={`category-tab ${activeCategory === category ? 'active' : ''}`}
-                onClick={() => setActiveCategory(category)}
-              >
-                {category !== 'all' && (
-                  <span className="category-icon">{getCategoryIcon(category)}</span>
-                )}
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-                {activeCategory === category && <span className="active-indicator" />}
-              </button>
-            ))}
-          </div>
+      {/* Category filter tabs - exactly like screenshot */}
+      <div className="category-filter-container">
+        <div className="category-tabs">
+          {categories.map((category, index) => (
+            <button
+              key={index}
+              className={`category-tab ${activeCategory === category ? 'active' : ''}`}
+              onClick={() => setActiveCategory(category)}
+            >
+              {category === 'all' ? 'All' : category}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -161,25 +99,12 @@ const Skills = () => {
               key={index}
               className="skill-card"
               variants={itemVariants}
-              whileHover={{ 
-                scale: 1.03, 
-                boxShadow: '0 8px 30px rgba(0, 176, 255, 0.2)',
-                transition: { duration: 0.2 } 
-              }}
             >
               <div className="skill-icon">{skill.icon}</div>
               <h3 className="skill-name">{skill.name}</h3>
-              <div className="skill-category-tag">{skill.category}</div>
-              <div className="skill-proficiency">
-                <div className="progress-bar">
-                  <motion.div
-                    className="progress-fill"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${skill.level}%` }}
-                    transition={{ duration: 1, delay: 0.2 }}
-                  />
-                </div>
-                <span className="progress-percentage">{skill.level}%</span>
+              <div className="skill-category">{skill.category}</div>
+              <div className={`skill-level ${getLevelColorClass(skill.level)}`}>
+                {getLevelLabel(skill.level)}
               </div>
             </motion.div>
           ))}

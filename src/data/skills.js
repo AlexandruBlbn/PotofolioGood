@@ -33,35 +33,12 @@ export const skills = [
     category: "Machine Learning"
   },
   {
-    name: "Data Visualization",
-    icon: <FaChartBar />,
-    level: 80,
-    category: "Data Science"
-  },
-  {
     name: "scikit-learn",
     icon: <SiScikitlearn />,
     level: 70,
     category: "Machine Learning"
   },
-  {
-    name: "Computer Vision",
-    icon: <FaEye />,
-    level: 65,
-    category: "Machine Learning"
-  },
-  {
-    name: "Natural Language Processing",
-    icon: <FaComment />,
-    level: 15,
-    category: "Machine Learning"
-  },
-  {
-    name: "Node.js",
-    icon: <FaNodeJs />,
-    level: 55,
-    category: "Backend"
-  },
+
   {
     name: "MySQL",
     icon: <SiMysql />,
