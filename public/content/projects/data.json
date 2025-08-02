@@ -1,0 +1,51 @@
+[
+  {
+    "id": "1",
+    "title": "Prostate cancer detection using deep neural Networks",
+    "description": "Built an Attention U-Net model for prostate cancer segmentation from MRI scans, using k-fold cross-validation and medical imaging preprocessing.",
+    "category": "Machine Learning",
+    "tags": [
+      "Python",
+      "PyTorch",
+      "Scikit-Learn",
+      "Nibabel",
+      "PIL"
+    ],
+    "featured": true,
+    "images": [
+      "ProstataPNG.png"
+    ]
+  },
+  {
+    "id": "2",
+    "title": "Prostate segmentation using U-Net arhitecture",
+    "description": "Developed a U-Net model for prostate segmentation from MRI scans, achieving high accuracy and robustness.",
+    "category": "Machine Learning",
+    "tags": [
+      "Python",
+      "PyTorch",
+      "Scikit-Learn",
+      "Nibabel",
+      "PIL"
+    ],
+    "featured": true,
+    "images": [
+      "Seg.png"
+    ]
+  },
+  {
+    "id": "3",
+    "title": "Test",
+    "description": "test",
+    "category": "test",
+    "tags": [
+      "MLP",
+      "test",
+      "123"
+    ],
+    "featured": false,
+    "images": [
+      "test.png"
+    ]
+  }
+]
