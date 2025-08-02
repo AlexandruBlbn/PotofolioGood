@@ -49,5 +49,22 @@
     "images": [
       "Portofolio.png"
     ]
+  },
+  {
+    "id": "4",
+    "title": "Curabot",
+    "description": "An AI-powered robotic arm that assists immobilized patients. The system integrates voice recognition, computer vision using a residual CNN on Raspberry Pi, and robotic control via Arduino and Braccio arm.",
+    "category": "Robotics",
+    "tags": [
+      "PyTorch",
+      "Arduino",
+      "C++",
+      "PIL",
+      "Raspberry"
+    ],
+    "featured": true,
+    "images": [
+      "CuraBot.jpg"
+    ]
   }
 ]
