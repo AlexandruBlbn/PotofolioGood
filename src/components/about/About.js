@@ -1,23 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaUser, FaEnvelope, FaMapMarkerAlt, FaGraduationCap, FaBriefcase, FaFileDownload, FaBrain, FaBolt, FaDatabase } from 'react-icons/fa';
 
 const About = () => {
-  // Career timeline data
-  const timeline = [
-    {
-      year: 'Working on...',
-      title: 'Software Engineer',
-      company: 'Unknown Company',   
-      description: 'Developing scalable backend systems and machine learning models to solve real-world problems. Collaborating with cross-functional teams to deliver high-quality software solutions.'
-    },
-    {
-      year: '2023-Present',
-      title: 'Student',
-      company: 'Electrical Engineering and Computer Science - UNITBV',
-      description: 'Built full-stack applications leveraging diverse technologies and frameworks. Took part in hackathons and coding challenges, which helped sharpen my problem-solving abilities and collaborative skills.'
-    }
-  ];
+  // Career timeline data fetched from content
+  const [timeline, setTimeline] = useState([]);
+  useEffect(() => {
+    fetch('/content/career/data.json')
+      .then(res => res.json())
+      .then(setTimeline);
+  }, []);
 
   // Animation variants
   const containerVariants = {

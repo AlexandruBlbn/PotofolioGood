@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { FaExternalLinkAlt, FaGithub, FaStar } from 'react-icons/fa';
 
 const ProjectCard = ({ project }) => {
-  const { id, title, description, image, tags, link, github, category, featured } = project;
+  const { id, title, description, images, tags, link, github, category, featured } = project;
   const [isHovered, setIsHovered] = useState(false);
   
   const [ref, inView] = useInView({
@@ -79,7 +79,15 @@ const ProjectCard = ({ project }) => {
             variants={imageVariants}
             animate={isHovered ? "hover" : "initial"}
           >
-            <img src={image} alt={title} />
+            {/* Use first image from images array and construct public path */}
+            <img
+              src={
+                images && images.length > 0
+                  ? `/content/projects/${images[0]}`
+                  : '/placeholder.png'
+              }
+              alt={title}
+            />
             <motion.div 
               className="project-overlay"
               variants={overlayVariants}

@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import ProjectCard from './ProjectCard';
-import { projects } from '../../data/projects';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ProjectsGrid = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [displayedProjects, setDisplayedProjects] = useState(projects);
+  const [allProjects, setAllProjects] = useState([]);
+  const [displayedProjects, setDisplayedProjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('featured');
   
-  // Get unique categories from projects
-  const categories = ['all', ...new Set(projects.map(project => project.category))];
+  // Get unique categories from fetched projects
+  const categories = ['all', ...new Set(allProjects.map(project => project.category))];
+
+  // Fetch projects data
+  useEffect(() => {
+    fetch('/content/projects/data.json')
+      .then(res => res.json())
+      .then(data => setAllProjects(data));
+  }, []);
 
   useEffect(() => {
-    let filtered = [...projects];
+    let filtered = [...allProjects];
     
     // Apply category filter
     if (selectedCategory !== 'all') {
@@ -38,7 +45,7 @@ const ProjectsGrid = () => {
     }
 
     setDisplayedProjects(filtered);
-  }, [selectedCategory, searchTerm, sortOrder]);
+  }, [allProjects, selectedCategory, searchTerm, sortOrder]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
