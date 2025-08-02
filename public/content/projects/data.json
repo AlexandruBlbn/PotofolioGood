@@ -32,5 +32,22 @@
     "images": [
       "Seg.png"
     ]
+  },
+  {
+    "id": "3",
+    "title": "Portofolio Website",
+    "description": "A simple website that presents my skills.",
+    "category": "Web Development",
+    "tags": [
+      "React",
+      "HTML5",
+      "CSS",
+      "JavaScript",
+      "Python"
+    ],
+    "featured": true,
+    "images": [
+      "Portofolio.png"
+    ]
   }
 ]
