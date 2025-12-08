@@ -67,5 +67,20 @@
     "images": [
       "CuraBot.jpg"
     ]
+  },
+  {
+    "id": "5",
+    "title": "Medical multimeter",
+    "description": "A Mega2560 based multimeter which is able to meassure blood pressure, beats per minute and oxygen saturation.",
+    "category": "Firmware",
+    "tags": [
+      "C",
+      "Microchip",
+      "Arduino"
+    ],
+    "featured": true,
+    "images": [
+      "tensiometru"
+    ]
   }
 ]
