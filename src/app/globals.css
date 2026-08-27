@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #F5F3EF;
+  --bg-warm: #EDE9E3;
+  --ink: #0A0A0A;
+  --ink-60: rgba(10,10,10,0.6);
+  --ink-30: rgba(10,10,10,0.12);
+  --accent: #E54D2E;
+  --accent-2: #00FF88;
+  --muted: #8B8680;
+  --border: rgba(10,10,10,0.08);
+  --surface: #FFFFFF;
+}
+
+* { scrollbar-width: thin; scrollbar-color: var(--ink-30) transparent; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), Inter, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Display serif for headings */
+.display {
+  font-family: var(--font-instrument), var(--font-geist-sans), serif;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+}
+
+/* Mono for labels */
+.mono {
+  font-family: var(--font-geist-mono), JetBrains Mono, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Grain */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+::selection { background: var(--accent); color: white; }
+
+/* Hero generative background — vivid blobs + dots, full-bleed */
+.hero-bg {
+  background:
+    radial-gradient(ellipse 700px 480px at 85% 18%, rgba(229,77,46,0.14), transparent 65%),
+    radial-gradient(ellipse 560px 420px at 8% 78%, rgba(229,77,46,0.07), transparent 65%),
+    radial-gradient(ellipse 480px 360px at 55% 95%, rgba(255,140,66,0.09), transparent 65%),
+    radial-gradient(circle at 1px 1px, rgba(10,10,10,0.07) 1px, transparent 0);
+  background-size: auto, auto, auto, 28px 28px;
+  mask-image: radial-gradient(ellipse 95% 90% at 50% 45%, black 45%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 95% 90% at 50% 45%, black 45%, transparent 100%);
+}
+
+/* Paper grain overlay — SVG noise, very subtle, gives warm analog feel */
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+}
+.hero-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  opacity: 0.86;
+}
+
+/* Topographic waves — two layers drifting in opposite directions */
+.hero-topo {
+  position: absolute;
+  inset: -6% -4%;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800' preserveAspectRatio='xMidYMid slice'%3E%3Cg fill='none' stroke='%230A0A0A' stroke-opacity='0.08' stroke-width='1.2'%3E%3Cpath d='M-60 640 C 150 550, 320 720, 540 650 S 920 530, 1260 615'/%3E%3Cpath d='M-60 575 C 165 485, 330 655, 550 585 S 930 465, 1260 550'/%3E%3Cpath d='M-60 510 C 180 420, 340 590, 560 520 S 940 400, 1260 485'/%3E%3Cpath d='M-60 445 C 195 355, 350 525, 570 455 S 950 335, 1260 420'/%3E%3Cpath d='M-60 380 C 210 290, 360 460, 580 390 S 960 270, 1260 355'/%3E%3Cpath d='M-60 315 C 225 225, 370 395, 590 325 S 970 205, 1260 290'/%3E%3Cpath d='M-60 250 C 240 160, 380 330, 600 260 S 980 140, 1260 225'/%3E%3C/g%3E%3Cg fill='none' stroke='%23E54D2E' stroke-opacity='0.16' stroke-width='1.4'%3E%3Cpath d='M-60 185 C 255 95, 390 265, 610 195 S 990 75, 1260 160'/%3E%3Cpath d='M-60 120 C 270 30, 400 200, 620 130 S 1000 10, 1260 95'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.1);
+  will-change: transform;
+  animation: waveDrift 24s ease-in-out infinite alternate;
+}
+.hero-topo--2 {
+  opacity: 0.5;
+  transform: scale(1.18);
+  animation-duration: 36s;
+  animation-direction: alternate-reverse;
+}
+@keyframes waveDrift {
+  0% { transform: scale(1.1) translate3d(-1.5%, -0.6%, 0); }
+  100% { transform: scale(1.1) translate3d(1.5%, 0.6%, 0); }
+}
+.hero-topo--2 {
+  animation-name: waveDrift2;
+}
+@keyframes waveDrift2 {
+  0% { transform: scale(1.18) translate3d(1.8%, 0.5%, 0); }
+  100% { transform: scale(1.18) translate3d(-1.8%, -0.5%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-topo, .hero-topo--2 { animation: none; }
+}
+
+/* Page load — soft fade */
+@keyframes pageIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+body { animation: pageIn 0.5s ease-out; }
+
+/* Natural entrance — soft rise, once */
+@keyframes heroRise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-rise {
+  opacity: 0;
+  animation: heroRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise { animation: none; opacity: 1; }
+}
+
+/* Scroll reveal — sections fade up gently */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  animation: revealUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-timeline: view();
+  animation-range: entry 0% entry 40%;
+}
+@supports not (animation-timeline: view()) {
+  .reveal { opacity: 1; animation: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { animation: none; opacity: 1; }
+}
+
+/* Loading bar — thin accent line under header while fonts/assets load */
+.loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  z-index: 100;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  background-size: 50% 100%;
+  animation: loadSlide 1.2s ease-in-out infinite;
+  opacity: 0;
+  animation-play-state: paused;
+}
+html.is-loading .loading-bar { opacity: 1; animation-play-state: running; }
+@keyframes loadSlide {
+  0% { background-position: -50% 0; }
+  100% { background-position: 150% 0; }
+}
+
+/* Scroll cue hint */
+@keyframes scrollHint {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(300%); }
+}
+.animate-scrollhint {
+  animation: scrollHint 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-scrollhint { animation: none; }
+}
+
+

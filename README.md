@@ -1,87 +1,36 @@
-# Portfolio Website
-
-This is a modern portfolio website built using React. The website showcases various projects, skills, and provides a contact form for inquiries.
-
-## Project Structure
-
-The project is organized as follows:
-
-```
-portfolio-website
-├── src
-│   ├── assets
-│   │   ├── fonts          # Custom font files
-│   │   ├── images         # Image files used in the project
-│   │   └── icons          # Icon files used in the project
-│   ├── components
-│   │   ├── header         # Header components
-│   │   │   ├── Header.js  # Displays the website's title and logo
-│   │   │   └── Navigation.js # Contains the navigation links
-│   │   ├── hero           # Hero component
-│   │   │   └── Hero.js    # Displays the main introduction section
-│   │   ├── about          # About component
-│   │   │   └── About.js    # Provides information about the individual
-│   │   ├── projects       # Components related to projects
-│   │   │   ├── ProjectCard.js # Displays individual project details
-│   │   │   └── ProjectsGrid.js # Arranges multiple ProjectCard components in a grid layout
-│   │   ├── skills         # Skills component
-│   │   │   └── Skills.js   # Showcases the individual's skills
-│   │   ├── contact        # Contact form component
-│   │   │   └── ContactForm.js # Allows users to send messages
-│   │   └── footer         # Footer component
-│   │       └── Footer.js   # Contains copyright and additional links
-│   ├── styles
-│   │   ├── global.css     # Global styles applied throughout the website
-│   │   └── variables.css   # CSS variables for consistent styling
-│   ├── utils
-│   │   ├── animations.js   # Functions related to animations used in the project
-│   │   └── helpers.js      # Helper functions for various tasks
-│   ├── data
-│   │   ├── projects.js     # Array of project objects used in the ProjectsGrid component
-│   │   └── skills.js       # Array of skill objects used in the Skills component
-│   ├── pages
-│   │   ├── index.js        # Main page component, renders the entire portfolio
-│   │   └── project
-│   │       └── [id].js     # Dynamic page component for specific project details
-│   └── app.js              # Main entry point of the application
-├── public
-│   ├── favicon.ico         # Favicon for the website
-│   └── robots.txt          # Instructions for web crawlers
-├── .gitignore              # Specifies files and directories to ignore by Git
-├── package.json            # Configuration file for npm, lists dependencies and scripts
-└── README.md               # Documentation for the project
-```
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-1. Clone the repository:
-   ```
-   git clone <repository-url>
-   ```
+First, run the development server:
 
-2. Navigate to the project directory:
-   ```
-   cd portfolio-website
-   ```
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-3. Install the dependencies:
-   ```
-   npm install
-   ```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-4. Start the development server:
-   ```
-   npm start
-   ```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## Technologies Used
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-- React
-- Tailwind CSS
-- JavaScript
-- HTML
-- CSS
+## Learn More
 
-## License
+To learn more about Next.js, take a look at the following resources:
 
-This project is licensed under the MIT License.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

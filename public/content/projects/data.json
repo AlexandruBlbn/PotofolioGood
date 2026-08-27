@@ -1,5 +1,54 @@
 [
   {
+    "id": "vasojepa",
+    "title": "VasoJEPA — anatomy-aware JEPA for coronary angiography",
+    "description": "Self-supervised pretraining framework on 171K unlabeled coronary angiograms. An exogenous vesselness anchor prevents representation collapse without an EMA teacher, outperforming models trained from scratch on vascular segmentation.",
+    "category": "Self-Supervised Learning",
+    "tags": [
+      "JEPA",
+      "SwinV2",
+      "SSL",
+      "PyTorch"
+    ],
+    "featured": true,
+    "metrics": {
+      "images": "171K",
+      "improvement": "+4.06% test F1",
+      "params": "-45%"
+    },
+    "images": [
+      "vasojepa-architecture.png",
+      "vasojepa-pca-visualization.png"
+    ],
+    "github": "https://github.com/AlexandruBlbn"
+  },
+  {
+    "id": "stenosis-segmentation",
+    "title": "A deep learning approach in stenosis detection and coronary arteries segmentation",
+    "description": "End-to-end vascular tree segmentation and focal stenosis localization on X-ray coronary angiograms. Features a multi-channel morphological input, EfficientNetV2 backbone, custom SubPixel upsampling with Deformable Convolutions (DCNv2), and Dual Attention. Trained with a composite Hybrid Loss (BCE + Soft-clDice for vascular continuity + Signed Distance Map).",
+    "category": "Medical Computer Vision",
+    "tags": [
+      "DeformConv2d",
+      "Dual Attention",
+      "Soft-clDice",
+      "SDM",
+      "PyTorch",
+      "ARCADE"
+    ],
+    "featured": true,
+    "metrics": {
+      "artery_f1": "80.51%",
+      "stenosis_f1": "60.21%",
+      "architecture": "DCNv2 + Dual Attention"
+    },
+    "images": [
+      "stenosis-segmentation.jpg",
+      "stenosis-decoder-architecture.png",
+      "deformable-conv-block.png"
+    ],
+    "github": "https://github.com/AlexandruBlbn"
+  },
+  {
     "id": "1",
     "title": "Prostate cancer detection using deep neural Networks",
     "description": "Built an Attention U-Net model for prostate cancer segmentation from MRI scans, using k-fold cross-validation and medical imaging preprocessing.",
@@ -13,42 +62,10 @@
     ],
     "featured": true,
     "images": [
-      "ProstataPNG.png"
-    ]
-  },
-  {
-    "id": "2",
-    "title": "Prostate segmentation using U-Net arhitecture",
-    "description": "Developed a U-Net model for prostate segmentation from MRI scans, achieving high accuracy and robustness.",
-    "category": "Machine Learning",
-    "tags": [
-      "Python",
-      "PyTorch",
-      "Scikit-Learn",
-      "Nibabel",
-      "PIL"
-    ],
-    "featured": true,
-    "images": [
+      "ProstataPNG.png",
       "Seg.png"
-    ]
-  },
-  {
-    "id": "3",
-    "title": "Portofolio Website",
-    "description": "A simple website to showcase my skills and my journey.",
-    "category": "Web Development",
-    "tags": [
-      "React",
-      "HTML5",
-      "CSS",
-      "JavaScript",
-      "Python"
     ],
-    "featured": true,
-    "images": [
-      "Portofolio.png"
-    ]
+    "github": "https://github.com/AlexandruBlbn/ProstateSegmentation"
   },
   {
     "id": "4",
@@ -66,12 +83,13 @@
     "featured": true,
     "images": [
       "CuraBot.jpg"
-    ]
+    ],
+    "github": "https://github.com/AlexandruBlbn/Internship-Siemens"
   },
   {
     "id": "5",
     "title": "Medical multimeter",
-    "description": "A Mega2560 based multimeter which is able to meassure blood pressure, beats per minute and oxygen saturation.",
+    "description": "A Mega2560 based multimeter which is able to measure blood pressure, beats per minute and oxygen saturation.",
     "category": "Firmware",
     "tags": [
       "C",
@@ -81,6 +99,23 @@
     "featured": true,
     "images": [
       "tensiometru.jpeg"
+    ],
+    "github": "https://github.com/AlexandruBlbn/Multimetru-Siemens"
+  },
+  {
+    "id": "3",
+    "title": "Portfolio Website",
+    "description": "A simple website to showcase my skills and my journey.",
+    "category": "Web Development",
+    "tags": [
+      "React",
+      "Next.js",
+      "TailwindCSS",
+      "TypeScript"
+    ],
+    "featured": true,
+    "images": [
+      "Portofolio.png"
     ]
   }
 ]
