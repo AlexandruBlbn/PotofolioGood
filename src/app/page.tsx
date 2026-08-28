@@ -132,8 +132,7 @@ export default function Home() {
                 <span className="font-[400] text-[var(--muted)]" style={{ fontFamily: 'var(--font-instrument)' }}>to see clearly</span><span className="text-[var(--accent)]">.</span>
               </h1>
               <p className="mt-7 text-[17px] md:text-[19px] leading-[1.7] max-w-[52ch] text-[var(--ink-60)] hero-rise" style={{ animationDelay: '160ms', textWrap: 'pretty' }}>
-                Hi, I&apos;m Alexandru — a CS & Engineering student passionate about machine learning
-                and what it can do for medicine. I like building things that actually work.
+                Hi, I&apos;m Alexandru — a CS & Engineering student who develops machine learning applications applied in medical imaging. I like building things that actually work and solve problems.
               </p>
               <div className="mt-9 flex flex-wrap items-center gap-5 hero-rise" style={{ animationDelay: '240ms' }}>
                 <a href="#work" className="inline-flex items-center gap-2.5 bg-[var(--ink)] text-white px-7 py-3.5 text-[13px] tracking-[0.06em] uppercase font-medium hover:bg-black hover:-translate-y-0.5 transition-all duration-200">
