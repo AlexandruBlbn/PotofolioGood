@@ -1,26 +1,28 @@
 [
   {
     "id": "vasojepa",
-    "title": "VasoJEPA — anatomy-aware JEPA for coronary angiography",
-    "description": "Self-supervised pretraining framework on 171K unlabeled coronary angiograms. An exogenous vesselness anchor prevents representation collapse without an EMA teacher, outperforming models trained from scratch on vascular segmentation.",
+    "title": "VasoJEPA: pre-training for coronary angiography without labels",
+    "description": "A SwinV2-S encoder learns from 37,945 unlabeled angiograms by predicting the features of hidden image blocks, placed over the vessels. Fine-tuned on ARCADE, it beats the same network trained from scratch at vessel segmentation (79.59 vs 77.06 Dice) and stenosis segmentation (52.41 vs 49.44 Dice).",
     "category": "Self-Supervised Learning",
     "tags": [
       "JEPA",
-      "SwinV2",
-      "SSL",
+      "SwinV2-S",
+      "Self-supervised",
       "PyTorch"
     ],
     "featured": true,
     "metrics": {
-      "images": "171K",
-      "improvement": "+4.06% test F1",
-      "params": "-45%"
+      "images": "37,945",
+      "vessels_dice_gain": "+2.52",
+      "stenosis_dice_gain": "+2.97",
+      "label_efficiency": "250 labels match 1,000 from scratch"
     },
     "images": [
-      "vasojepa-architecture.png",
-      "vasojepa-pca-visualization.png"
+      "vasojepa/pretraining.png",
+      "vasojepa/qual-vessels.png",
+      "vasojepa/pca-stages.png"
     ],
-    "github": "https://github.com/AlexandruBlbn"
+    "page": "/vasojepa"
   },
   {
     "id": "stenosis-segmentation",

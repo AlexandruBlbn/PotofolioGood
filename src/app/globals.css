@@ -3,52 +3,71 @@
 :root {
   --bg: #F5F3EF;
   --bg-warm: #EDE9E3;
-  --ink: #0A0A0A;
-  --ink-60: rgba(10,10,10,0.6);
-  --ink-30: rgba(10,10,10,0.12);
-  --accent: #E54D2E;
-  --accent-2: #00FF88;
-  --muted: #8B8680;
-  --border: rgba(10,10,10,0.08);
   --surface: #FFFFFF;
+  --ink: #0A0A0A;
+  --ink-60: rgba(10, 10, 10, 0.6);
+  --muted: #6B665F;       /* small text: 5.1:1 on paper */
+  --muted-soft: #8B8680;  /* large display type only */
+  --accent: #E54D2E;      /* the red of the paper heart's arteries */
+  --accent-ink: #C43A1E;  /* accent for small text: 4.8:1 on paper */
+  --border: rgba(10, 10, 10, 0.08);
+  --border-strong: rgba(10, 10, 10, 0.2);
 }
 
-* { scrollbar-width: thin; scrollbar-color: var(--ink-30) transparent; }
+@theme inline {
+  --color-paper: var(--bg);
+  --color-paper-warm: var(--bg-warm);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-60: var(--ink-60);
+  --color-muted: var(--muted);
+  --color-muted-soft: var(--muted-soft);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+* { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
 
 html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
 
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-geist-sans), Inter, system-ui, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Display serif for headings */
-.display {
-  font-family: var(--font-instrument), var(--font-geist-sans), serif;
-  letter-spacing: -0.03em;
-  line-height: 0.92;
-}
+/* anchored sections land below the sticky header */
+[id] { scroll-margin-top: 88px; }
 
-/* Mono for labels */
-.mono {
-  font-family: var(--font-geist-mono), JetBrains Mono, monospace;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-/* Grain */
-.grain::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-}
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 ::selection { background: var(--accent); color: white; }
+
+/* in the components layer, so utilities like leading-* or normal-case can still override them */
+@layer components {
+  /* Display serif for headings */
+  .display {
+    font-family: var(--font-instrument), Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 0.92;
+  }
+
+  /* Mono for labels */
+  .mono {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
 
 /* Hero generative background — vivid blobs + dots, full-bleed */
 .hero-bg {
@@ -94,15 +113,13 @@ body {
 .hero-topo--2 {
   opacity: 0.5;
   transform: scale(1.18);
+  animation-name: waveDrift2;
   animation-duration: 36s;
   animation-direction: alternate-reverse;
 }
 @keyframes waveDrift {
   0% { transform: scale(1.1) translate3d(-1.5%, -0.6%, 0); }
   100% { transform: scale(1.1) translate3d(1.5%, 0.6%, 0); }
-}
-.hero-topo--2 {
-  animation-name: waveDrift2;
 }
 @keyframes waveDrift2 {
   0% { transform: scale(1.18) translate3d(1.8%, 0.5%, 0); }
@@ -111,13 +128,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .hero-topo, .hero-topo--2 { animation: none; }
 }
-
-/* Page load — soft fade */
-@keyframes pageIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-body { animation: pageIn 0.5s ease-out; }
 
 /* Natural entrance — soft rise, once */
 @keyframes heroRise {
@@ -132,42 +142,19 @@ body { animation: pageIn 0.5s ease-out; }
   .hero-rise { animation: none; opacity: 1; }
 }
 
-/* Scroll reveal — sections fade up gently */
+/* Scroll reveal — sections fade up gently where the browser supports scroll timelines */
 @keyframes revealUp {
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.reveal {
-  opacity: 0;
-  animation: revealUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-timeline: view();
-  animation-range: entry 0% entry 40%;
-}
-@supports not (animation-timeline: view()) {
-  .reveal { opacity: 1; animation: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .reveal { animation: none; opacity: 1; }
-}
-
-/* Loading bar — thin accent line under header while fonts/assets load */
-.loading-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 2px;
-  width: 100%;
-  z-index: 100;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  background-size: 50% 100%;
-  animation: loadSlide 1.2s ease-in-out infinite;
-  opacity: 0;
-  animation-play-state: paused;
-}
-html.is-loading .loading-bar { opacity: 1; animation-play-state: running; }
-@keyframes loadSlide {
-  0% { background-position: -50% 0; }
-  100% { background-position: 150% 0; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: revealUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 30%;
+    }
+  }
 }
 
 /* Scroll cue hint */
@@ -181,5 +168,3 @@ html.is-loading .loading-bar { opacity: 1; animation-play-state: running; }
 @media (prefers-reduced-motion: reduce) {
   .animate-scrollhint { animation: none; }
 }
-
-

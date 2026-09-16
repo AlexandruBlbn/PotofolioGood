@@ -1,459 +1,372 @@
-"use client";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
+import ContactForm from "@/components/ContactForm";
+import FigureToggle from "@/components/FigureToggle";
+import { CV, EMAIL, GITHUB, LINKEDIN } from "@/content/site";
+import { CORPUS, signed, stenosis, vessels } from "@/content/vasojepa";
+
+const P = "/content/projects";
+
+function Tags({ items }: { items: string[] }) {
+  return (
+    <ul className="mono mt-4 flex flex-wrap gap-1.5 text-[11px]">
+      {items.map((t, i) => (
+        <li key={t} className={`border border-line px-2 py-1 ${i === 0 ? "bg-paper-warm" : ""}`}>{t}</li>
+      ))}
+    </ul>
+  );
+}
+
+function Stats({ items }: { items: [string, string, string?][] }) {
+  return (
+    <dl className="mt-5 grid gap-2" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
+      {items.map(([value, label, tone]) => (
+        <div key={label} className="flex flex-col-reverse border border-line bg-paper-warm px-1.5 py-2.5 text-center">
+          <dt className="mono mt-1 text-[10px] leading-[1.35] text-muted">{label}</dt>
+          <dd className={`text-[19px] font-semibold tabular-nums ${tone ?? ""}`}>{value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+const Eyebrow = ({ n, children }: { n: string; children: React.ReactNode }) => (
+  <p className="mono text-[11px] text-muted"><span className="text-accent-ink">{n}</span> · {children}</p>
+);
+
+const RepoLink = ({ href }: { href: string }) => (
+  <a href={href} target="_blank" rel="noopener noreferrer" className="mono mt-auto inline-flex w-fit pt-6 text-[11px] underline underline-offset-4 transition-colors hover:text-accent-ink">
+    View repo ↗
+  </a>
+);
 
 export default function Home() {
-  const [, setLoading] = useState(true);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    document.documentElement.classList.add("is-loading");
-    const t = setTimeout(() => {
-      document.documentElement.classList.remove("is-loading");
-      setLoading(false);
-    }, 700);
-    return () => { clearTimeout(t); document.documentElement.classList.remove("is-loading"); };
-  }, []);
-
   return (
-    <div className="min-h-screen bg-[var(--bg)] text-[var(--ink)] selection:bg-[var(--accent)] selection:text-white">
-      <div className="loading-bar" aria-hidden />
-      {/* Header — Desktop: Resume centered | Mobile: Clean compact bar with menu */}
-      <header className="sticky top-0 z-50 border-b border-[var(--border)]"
-        style={{
-          background: 'rgba(245, 243, 239, 0.75)',
-          backdropFilter: 'blur(10px) saturate(1.1)',
-          WebkitBackdropFilter: 'blur(10px) saturate(1.1)',
-        }}>
-        {/* Desktop Navigation (Centered Resume) */}
-        <div className="hidden md:grid mx-auto max-w-[820px] px-6 h-[72px] grid-cols-3 items-center">
-          <nav className="flex items-center gap-8 justify-end">
-            <a href="#work" className="text-[15px] font-medium text-[var(--ink-60)] hover:text-[var(--ink)] transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[2px] after:bg-[var(--accent)] hover:after:w-full after:transition-all after:duration-200">Work</a>
-            <a href="#about" className="text-[15px] font-medium text-[var(--ink-60)] hover:text-[var(--ink)] transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[2px] after:bg-[var(--accent)] hover:after:w-full after:transition-all after:duration-200">About</a>
-          </nav>
-          <div className="flex justify-center px-6">
-            <a href="/Curriculum Vitae.pdf" target="_blank" className="inline-flex items-center gap-2 bg-[var(--ink)] text-white px-6 py-2.5 text-[14px] font-medium hover:bg-black transition-colors whitespace-nowrap">
-              Resume <span className="text-[12px]">↗</span>
-            </a>
-          </div>
-          <nav className="flex items-center gap-8 justify-start">
-            <a href="#stack" className="text-[15px] font-medium text-[var(--ink-60)] hover:text-[var(--ink)] transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[2px] after:bg-[var(--accent)] hover:after:w-full after:transition-all after:duration-200">Stack</a>
-            <a href="#contact" className="text-[15px] font-medium text-[var(--ink-60)] hover:text-[var(--ink)] transition-colors relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[2px] after:bg-[var(--accent)] hover:after:w-full after:transition-all after:duration-200">Contact</a>
-          </nav>
-        </div>
+    <div id="top" className="min-h-screen">
+      <SiteHeader />
+      <main id="main">
+        {/* Hero: full-bleed animated paper texture, type on the left, the origami heart on the right */}
+        <section className="relative flex items-center overflow-hidden md:min-h-[calc(100svh-72px)]">
+          <div aria-hidden className="hero-bg pointer-events-none absolute inset-0" />
+          <div aria-hidden className="hero-topo" />
+          <div aria-hidden className="hero-topo hero-topo--2" />
+          <div aria-hidden className="hero-grain" />
 
-        {/* Mobile Navigation Bar */}
-        <div className="flex md:hidden items-center justify-between px-5 h-[62px]">
-          <a href="#home" className="mono text-[12px] font-semibold tracking-wider text-[var(--ink)]">
-            ALEXANDRU BALABAN
-          </a>
-          <div className="flex items-center gap-2.5">
-            <a
-              href="/Curriculum Vitae.pdf"
-              target="_blank"
-              className="inline-flex items-center gap-1.5 bg-[var(--ink)] text-white px-3 py-1.5 text-[12px] font-medium hover:bg-black transition-colors whitespace-nowrap"
-            >
-              Resume <span className="text-[10px]">↗</span>
-            </a>
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle navigation menu"
-              className="p-2 -mr-1 text-[var(--ink)] hover:text-[var(--accent)] transition-colors cursor-pointer"
-            >
-              {mobileMenuOpen ? (
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Slide-down Drawer */}
-        {mobileMenuOpen && (
-          <nav className="md:hidden border-t border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-md px-6 py-4 flex flex-col gap-3">
-            <a
-              href="#work"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-[15px] font-medium text-[var(--ink)] hover:text-[var(--accent)] transition-colors py-2 border-b border-[var(--border)]/40 flex items-center justify-between"
-            >
-              <span>Work</span>
-              <span className="mono text-[11px] text-[var(--muted)]">01</span>
-            </a>
-            <a
-              href="#about"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-[15px] font-medium text-[var(--ink)] hover:text-[var(--accent)] transition-colors py-2 border-b border-[var(--border)]/40 flex items-center justify-between"
-            >
-              <span>About</span>
-              <span className="mono text-[11px] text-[var(--muted)]">02</span>
-            </a>
-            <a
-              href="#stack"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-[15px] font-medium text-[var(--ink)] hover:text-[var(--accent)] transition-colors py-2 border-b border-[var(--border)]/40 flex items-center justify-between"
-            >
-              <span>Stack</span>
-              <span className="mono text-[11px] text-[var(--muted)]">03</span>
-            </a>
-            <a
-              href="#contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-[15px] font-medium text-[var(--ink)] hover:text-[var(--accent)] transition-colors py-2 flex items-center justify-between"
-            >
-              <span>Contact</span>
-              <span className="mono text-[11px] text-[var(--muted)]">04</span>
-            </a>
-          </nav>
-        )}
-      </header>
-
-      {/* Hero — full-bleed animated texture, type on top, video on the right */}
-      <section id="home" className="relative min-h-[calc(100vh-72px)] flex items-center overflow-hidden">
-        {/* Full-width blended background: blobs + dots + animated waves + grain */}
-        <div aria-hidden className="absolute inset-0 pointer-events-none hero-bg" />
-        <div aria-hidden className="hero-topo" />
-        <div aria-hidden className="hero-topo hero-topo--2" />
-        <div aria-hidden className="hero-grain" />
-
-        <div className="relative mx-auto max-w-[1280px] w-full px-6 pt-8 pb-20 md:py-16">
-          <div className="grid lg:grid-cols-12 gap-10 xl:gap-14 items-center">
-            {/* Left — original typography and buttons */}
-            <div className="lg:col-span-7">
-              <p className="mono text-[11px] tracking-[0.18em] text-[var(--muted)] hero-rise" style={{ animationDelay: '0ms' }}>
-                ALEXANDRU BALABAN
-              </p>
-              <h1 className="display mt-5 text-[52px] sm:text-[68px] lg:text-[88px] font-[900] hero-rise" style={{ animationDelay: '80ms', textWrap: 'balance' }}>
-                I teach machines<br />
-                <span className="font-[400] text-[var(--muted)]" style={{ fontFamily: 'var(--font-instrument)' }}>to see clearly</span><span className="text-[var(--accent)]">.</span>
-              </h1>
-              <p className="mt-7 text-[17px] md:text-[19px] leading-[1.7] max-w-[52ch] text-[var(--ink-60)] hero-rise" style={{ animationDelay: '160ms', textWrap: 'pretty' }}>
-                Hi, I&apos;m Alexandru — a CS & Engineering student who develops machine learning applications applied in medical imaging. I like building things that actually work and solve problems.
-              </p>
-              <div className="mt-9 flex flex-wrap items-center gap-5 hero-rise" style={{ animationDelay: '240ms' }}>
-                <a href="#work" className="inline-flex items-center gap-2.5 bg-[var(--ink)] text-white px-7 py-3.5 text-[13px] tracking-[0.06em] uppercase font-medium hover:bg-black hover:-translate-y-0.5 transition-all duration-200">
-                  See my work <span className="text-[15px]">→</span>
-                </a>
-                <a href="#contact" className="inline-flex items-center gap-2 px-2 py-3.5 text-[13px] tracking-[0.06em] uppercase font-medium text-[var(--ink)] border-b-2 border-[var(--accent)] hover:opacity-70 transition-opacity">
-                  Get in touch
-                </a>
+          <div className="relative mx-auto w-full max-w-[1280px] px-6 pb-16 pt-10 md:py-16">
+            <div className="grid items-center gap-10 lg:grid-cols-12 xl:gap-14">
+              <div className="lg:col-span-7">
+                <p className="mono hero-rise text-[11px] tracking-[0.18em] text-muted">Alexandru Balaban</p>
+                <h1 className="display hero-rise mt-5 text-[52px] font-[900] text-balance sm:text-[68px] lg:text-[88px]" style={{ animationDelay: "80ms" }}>
+                  I teach machines<br />
+                  <span className="font-normal text-muted-soft">to see clearly</span><span className="text-accent">.</span>
+                </h1>
+                <p className="hero-rise mt-7 max-w-[52ch] text-[17px] leading-[1.7] text-ink-60 text-pretty md:text-[19px]" style={{ animationDelay: "160ms" }}>
+                  Hi, I&apos;m Alexandru — a CS & Engineering student who develops machine learning applications for
+                  medical imaging. I like building things that actually work and solve problems.
+                </p>
+                <div className="hero-rise mt-9 flex flex-wrap items-center gap-5" style={{ animationDelay: "240ms" }}>
+                  <Link href="#work" className="inline-flex items-center gap-2.5 bg-ink px-7 py-3.5 text-[13px] font-medium uppercase tracking-[0.06em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-black">
+                    See my work <span aria-hidden className="text-[15px]">→</span>
+                  </Link>
+                  <Link href="#contact" className="inline-flex items-center gap-2 border-b-2 border-accent px-2 py-3.5 text-[13px] font-medium uppercase tracking-[0.06em] transition-opacity hover:opacity-70">
+                    Get in touch
+                  </Link>
+                </div>
               </div>
-            </div>
 
-            {/* Right — Frameless Floating Origami Video */}
-            <div className="lg:col-span-5 flex items-center justify-center hero-rise relative" style={{ animationDelay: '200ms' }}>
-              <div className="relative w-full max-w-[580px] lg:max-w-[640px] aspect-[16/10] sm:aspect-[4/3] flex items-center justify-center pointer-events-none">
-                <video
-                  src="/images/hero-video.mp4"
-                  poster="/images/origami-heart.jpg"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-full object-contain select-none scale-[1.12] sm:scale-[1.35] lg:scale-[1.5] origin-center transition-transform"
-                  style={{
-                    filter: 'brightness(1.08) saturate(0.7) contrast(1.03)',
-                    maskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, black 25%, transparent 70%)',
-                    WebkitMaskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, black 25%, transparent 70%)',
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* scroll cue */}
-        <a href="#work" aria-label="Scroll to work"
-          className="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-[var(--muted)] hover:text-[var(--ink)] transition-colors">
-          <span className="mono text-[9px] tracking-[0.2em]">SCROLL</span>
-          <span className="block w-px h-8 bg-[var(--ink-30)] overflow-hidden">
-            <span className="block w-px h-3 bg-[var(--ink)] animate-scrollhint" />
-          </span>
-        </a>
-      </section>
-
-      {/* Divider hairline */}
-      <div className="mx-auto max-w-[1280px] px-6">
-        <div className="h-px bg-[var(--border)]" />
-      </div>
-
-      {/* Work — editorial list, not equal grid */}
-      <section id="work" className="reveal mx-auto max-w-[1280px] px-6 py-12 md:py-16">
-        <div className="flex items-baseline justify-between gap-6 mb-8">
-          <h2 className="display text-[32px] md:text-[40px]">Selected work</h2>
-          <span className="mono text-[11px] text-[var(--muted)] hidden sm:inline">6 projects · 2023—2026 · <a href="https://github.com/AlexandruBlbn" target="_blank" rel="noopener noreferrer" className="underline">github.com/AlexandruBlbn</a></span>
-        </div>
-
-        {/* Featured 01 — VasoJEPA (main research) */}
-        <article className="border border-[var(--ink)] bg-white grid md:grid-cols-12 mb-6 group overflow-hidden">
-          <div className="md:col-span-7 border-b md:border-b-0 md:border-r border-[var(--border)] relative min-h-[380px] overflow-hidden bg-white p-4 flex items-center justify-center">
-            <img
-              src="/content/projects/vasojepa-architecture.png"
-              alt="VasoJEPA architecture"
-              className="max-h-[350px] w-auto object-contain group-hover:opacity-0 transition-opacity duration-300"
-            />
-            <div className="absolute inset-0 bg-white p-4 sm:p-6 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div className="w-full flex-1 flex items-center justify-center overflow-hidden">
-                <img
-                  src="/content/projects/vasojepa-pca-visualization.png"
-                  alt="VasoJEPA Latent Representation PCA Visualization"
-                  className="w-full h-auto max-h-[300px] object-contain"
-                />
-              </div>
-              <div className="mono text-[9px] text-[var(--muted)] border-t border-[var(--border)] pt-2 mt-2 w-full flex justify-between px-1 tracking-wider uppercase">
-                <span>Self-Supervised JEPA</span>
-                <span>Latent PCA: Raw · Masked · Target · Pred</span>
-                <span>Anatomy Preservation</span>
-              </div>
-            </div>
-          </div>
-          <div className="md:col-span-5 p-7 flex flex-col">
-            <div className="mono text-[10px] tracking-[0.12em] text-[var(--muted)] flex gap-2"><span className="text-[var(--accent)]">01</span> Self-Supervised Learning · Research</div>
-            <h3 className="mt-3 text-[22px] font-semibold leading-tight" style={{ textWrap: 'balance' }}>VasoJEPA — anatomy-aware JEPA for coronary angiography</h3>
-            <p className="mt-3 text-[14px] leading-[1.6] text-[var(--ink-60)]" style={{ textWrap: 'pretty' }}>
-              Self-supervised pretraining framework on 171K unlabeled coronary angiograms. An exogenous vesselness anchor prevents representation collapse without an EMA teacher, outperforming models trained from scratch on vascular segmentation.
-            </p>
-            <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-              <div className="border border-[var(--border)] bg-[var(--bg-warm)] py-2.5 px-1"><div className="text-[18px] font-semibold">171K</div><div className="mono text-[9px] text-[var(--muted)]">XCA images</div></div>
-              <div className="border border-[var(--border)] bg-[var(--bg-warm)] py-2.5 px-1"><div className="text-[18px] font-semibold text-[var(--accent)]">+4.06%</div><div className="mono text-[9px] text-[var(--muted)]">vs random init</div></div>
-              <div className="border border-[var(--border)] bg-[var(--bg-warm)] py-2.5 px-1"><div className="text-[18px] font-semibold">−45%</div><div className="mono text-[9px] text-[var(--muted)]">encoder params</div></div>
-            </div>
-            <div className="mt-4 flex flex-wrap gap-1.5 mono text-[10px]">
-              <span className="px-2 py-1 bg-[var(--bg-warm)] border border-[var(--border)]">JEPA</span>
-              <span className="px-2 py-1 border border-[var(--border)]">SwinV2</span>
-              <span className="px-2 py-1 border border-[var(--border)]">SSL</span>
-              <span className="px-2 py-1 border border-[var(--border)]">PyTorch</span>
-            </div>
-            <a href="https://github.com/AlexandruBlbn" target="_blank" rel="noopener noreferrer" className="mt-auto pt-6 inline-flex gap-2 mono text-[11px] underline underline-offset-4">Read the paper ↗</a>
-          </div>
-        </article>
-
-        {/* Featured 02 — Stenosis Detection & Coronary Segmentation */}
-        <article className="border border-[var(--ink)] bg-white grid md:grid-cols-12 mb-6 group overflow-hidden">
-          <div className="md:col-span-7 border-b md:border-b-0 md:border-r border-[var(--border)] relative h-[300px] sm:h-[360px] md:h-auto md:min-h-[400px] overflow-hidden bg-black flex items-center justify-center">
-            <img
-              src="/content/projects/stenosis-segmentation-hd.jpg"
-              alt="Coronary artery and stenosis segmentation"
-              className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-300"
-            />
-            <div className="absolute inset-0 bg-white p-3 sm:p-4 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div className="grid grid-cols-2 gap-3 sm:gap-4 h-full items-center">
-                <div className="h-full flex flex-col items-center justify-center border-r border-[var(--border)] pr-2 sm:pr-3 overflow-hidden">
-                  <img
-                    src="/content/projects/stenosis-full-architecture.png"
-                    alt="End-to-End Deep Learning Architecture"
-                    className="max-h-[260px] sm:max-h-[300px] md:max-h-[330px] w-auto max-w-full object-contain"
+              {/* The paper heart: a crumpled ball that unfolds into a heart and folds back, on a loop */}
+              <div aria-hidden className="hero-rise relative flex items-center justify-center lg:col-span-5" style={{ animationDelay: "200ms" }}>
+                <div className="pointer-events-none relative flex aspect-[16/10] w-full max-w-[580px] items-center justify-center sm:aspect-[4/3] lg:max-w-[640px]">
+                  <video
+                    src="/images/hero-video.mp4"
+                    poster="/images/origami-heart.jpg"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="h-full w-full origin-center scale-[1.12] select-none object-contain sm:scale-[1.35] lg:scale-[1.5]"
+                    style={{
+                      filter: "brightness(1.08) saturate(0.7) contrast(1.03)",
+                      maskImage: "radial-gradient(ellipse 60% 60% at 50% 50%, black 25%, transparent 70%)",
+                      WebkitMaskImage: "radial-gradient(ellipse 60% 60% at 50% 50%, black 25%, transparent 70%)",
+                    }}
                   />
-                  <span className="mono text-[9px] text-[var(--muted)] mt-1.5 uppercase tracking-wider text-center">Pipeline Architecture</span>
-                </div>
-                <div className="h-full flex flex-col items-center justify-center pl-1 sm:pl-2 overflow-hidden">
-                  <img
-                    src="/content/projects/stenosis-decoder-modules.png"
-                    alt="Stage Breakdown: Up Module, Fusion Module, and Deformable Conv Block"
-                    className="max-h-[260px] sm:max-h-[300px] md:max-h-[330px] w-auto max-w-full object-contain"
-                  />
-                  <span className="mono text-[9px] text-[var(--muted)] mt-1.5 uppercase tracking-wider text-center">Stage & DCNv2 Detail</span>
-                </div>
-              </div>
-              <div className="mono text-[9px] text-[var(--muted)] border-t border-[var(--border)] pt-1.5 mt-1 flex justify-between px-1">
-                <span>EfficientNetV2-Small</span>
-                <span>SubPixel + DCNv2</span>
-                <span>Deep Supervision</span>
-              </div>
-            </div>
-            <div className="absolute bottom-3 left-3 bg-black/80 backdrop-blur-xs text-white border border-white/20 px-2.5 py-1 mono text-[10px] pointer-events-none group-hover:opacity-0 transition-opacity">
-              <span className="text-yellow-400">● Arteries</span> &nbsp;·&nbsp; <span className="text-red-500">● Stenosis</span>
-            </div>
-          </div>
-          <div className="md:col-span-5 p-7 flex flex-col">
-            <div className="mono text-[10px] tracking-[0.12em] text-[var(--muted)] flex gap-2">
-              <span className="text-[var(--accent)]">02</span> Computer Vision · Cardiology
-            </div>
-            <h3 className="mt-3 text-[22px] font-semibold leading-tight" style={{ textWrap: 'balance' }}>
-              A deep learning approach in stenosis detection and coronary arteries segmentation
-            </h3>
-            <p className="mt-3 text-[14px] leading-[1.6] text-[var(--ink-60)]" style={{ textWrap: 'pretty' }}>
-              Dual-task deep learning model for coronary artery segmentation and focal stenosis localization on X-ray angiography. Employs an EfficientNetV2 backbone, custom decoder with Deformable Convolutions (DCNv2) and Dual Attention, and deep supervision for robust vascular branch tracing.
-            </p>
-            <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-              <div className="border border-[var(--border)] bg-[var(--bg-warm)] py-2.5 px-1">
-                <div className="text-[18px] font-semibold text-yellow-600">80.51%</div>
-                <div className="mono text-[9px] text-[var(--muted)]">artery F1</div>
-              </div>
-              <div className="border border-[var(--border)] bg-[var(--bg-warm)] py-2.5 px-1">
-                <div className="text-[18px] font-semibold text-[var(--accent)]">60.21%</div>
-                <div className="mono text-[9px] text-[var(--muted)]">stenosis F1</div>
-              </div>
-              <div className="border border-[var(--border)] bg-[var(--bg-warm)] py-2.5 px-1">
-                <div className="text-[18px] font-semibold">DCNv2</div>
-                <div className="mono text-[9px] text-[var(--muted)]">dual attention</div>
-              </div>
-            </div>
-            <div className="mt-4 flex flex-wrap gap-1.5 mono text-[10px]">
-              <span className="px-2 py-1 bg-[var(--bg-warm)] border border-[var(--border)]">EfficientNetV2</span>
-              <span className="px-2 py-1 border border-[var(--border)]">DeformConv2d</span>
-              <span className="px-2 py-1 border border-[var(--border)]">Dual Attention</span>
-              <span className="px-2 py-1 border border-[var(--border)]">PyTorch</span>
-              <span className="px-2 py-1 border border-[var(--border)]">ARCADE</span>
-            </div>
-            <a href="https://github.com/AlexandruBlbn" target="_blank" rel="noopener noreferrer" className="mt-auto pt-6 inline-flex gap-2 mono text-[11px] underline underline-offset-4">
-              View pipeline details ↗
-            </a>
-          </div>
-        </article>
-
-        {/* Featured 03 — Prostate */}
-        <article className="border border-[var(--border)] bg-white grid md:grid-cols-12 mb-6 group overflow-hidden">
-          <div className="md:col-span-7 border-b md:border-b-0 md:border-r border-[var(--border)] relative h-[380px] overflow-hidden bg-[var(--bg-warm)]">
-            <img src="/content/projects/Seg.png" alt="Medical image segmentation" className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-300" />
-            <video src="/content/projects/prostate-hover.mp4" poster="/content/projects/Seg.png" muted loop playsInline preload="none" className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300" onMouseEnter={e=> (e.target as HTMLVideoElement).play()} onMouseLeave={e=> { (e.target as HTMLVideoElement).pause(); (e.target as HTMLVideoElement).currentTime=0; }} />
-          </div>
-          <div className="md:col-span-5 p-7 flex flex-col">
-            <div className="mono text-[10px] tracking-[0.12em] text-[var(--muted)] flex gap-2"><span className="text-[var(--accent)]">03</span> Machine Learning · Featured</div>
-            <h3 className="mt-3 text-[22px] font-semibold leading-tight" style={{ textWrap: 'balance' }}>Prostate cancer detection using deep neural networks</h3>
-            <p className="mt-3 text-[14px] leading-[1.6] text-[var(--ink-60)]" style={{ textWrap: 'pretty' }}>Attention U-Net for prostate segmentation from MRI. k-fold cross-validation, medical preprocessing with Nibabel/PIL, validated with honest metrics.</p>
-            <div className="mt-4 flex flex-wrap gap-1.5 mono text-[10px]">
-              <span className="px-2 py-1 bg-[var(--bg-warm)] border border-[var(--border)]">Attention U-Net</span>
-              <span className="px-2 py-1 border border-[var(--border)]">5-fold</span>
-              <span className="px-2 py-1 border border-[var(--border)]">MRI</span>
-            </div>
-            <a href="https://github.com/AlexandruBlbn/ProstateSegmentation" target="_blank" rel="noopener noreferrer" className="mt-auto pt-6 inline-flex gap-2 mono text-[11px] underline underline-offset-4">View repo ↗</a>
-          </div>
-        </article>
-
-        {/* Bento 4 & 5 — video on hover */}
-        <div className="grid md:grid-cols-12 gap-6">
-          <article className="md:col-span-7 border border-[var(--border)] bg-white group overflow-hidden">
-            <div className="relative h-[240px] overflow-hidden border-b border-[var(--border)] bg-[var(--bg-warm)]">
-              <img src="/content/projects/CuraBot.jpg" alt="Curabot" className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-300" />
-              <video src="/content/projects/curabot-hover.mp4" poster="/content/projects/CuraBot.jpg" muted loop playsInline preload="none" className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300" onMouseEnter={e=> (e.target as HTMLVideoElement).play()} onMouseLeave={e=> { (e.target as HTMLVideoElement).pause(); (e.target as HTMLVideoElement).currentTime=0; }} />
-            </div>
-            <div className="p-6">
-              <div className="mono text-[10px] text-[var(--muted)]">04 · Robotics · Featured</div>
-              <h3 className="mt-2 text-[18px] font-semibold">Curabot — voice + vision arm</h3>
-              <p className="mt-2 text-[13px] leading-[1.6] text-[var(--ink-60)]">ResCNN on Raspberry Pi + Arduino Braccio. Voice recognition + residual CNN for immobilized patients.</p>
-              <div className="mt-3 mono text-[10px] flex gap-1.5 flex-wrap"><span className="border border-[var(--border)] px-2 py-1">Raspberry Pi</span><span className="border border-[var(--border)] px-2 py-1">Braccio</span><span className="border border-[var(--border)] px-2 py-1">PyTorch</span></div>
-            </div>
-          </article>
-          <article className="md:col-span-5 border border-[var(--border)] bg-white group overflow-hidden">
-            <div className="relative h-[240px] overflow-hidden border-b border-[var(--border)] bg-[var(--bg-warm)]">
-              <img src="/content/projects/tensiometru.jpeg" alt="Medical multimeter" className="w-full h-full object-cover group-hover:opacity-0 transition-opacity duration-300" />
-              <video src="/content/projects/multimeter-hover.mp4" poster="/content/projects/tensiometru.jpeg" muted loop playsInline preload="none" className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300" onMouseEnter={e=> (e.target as HTMLVideoElement).play()} onMouseLeave={e=> { (e.target as HTMLVideoElement).pause(); (e.target as HTMLVideoElement).currentTime=0; }} />
-            </div>
-            <div className="p-6">
-              <div className="mono text-[10px] text-[var(--muted)]">05 · Firmware</div>
-              <h3 className="mt-2 text-[18px] font-semibold">Medical multimeter</h3>
-              <p className="mt-2 text-[13px] text-[var(--ink-60)]">Arduino Mega2560 measuring blood pressure, heart rate and oxygen saturation — my first end-to-end hardware project.</p>
-            </div>
-          </article>
-        </div>
-
-        {/* Row 6 small */}
-        <div className="grid md:grid-cols-12 gap-6 mt-6">
-          <article className="md:col-span-12 border border-[var(--border)] bg-white p-7">
-            <div className="mono text-[10px] text-[var(--muted)]">06 · WEB</div>
-            <h3 className="mt-2 text-[18px] font-semibold">Portfolio</h3>
-            <p className="mt-2 text-[13px] text-[var(--ink-60)] max-w-[70ch]">The site you&apos;re on — designed and built from scratch. Typography-first, warm paper tones, everything in service of the work.</p>
-          </article>
-        </div>
-      </section>
-
-      {/* About — natural, human */}
-      <section id="about" className="reveal mx-auto max-w-[1280px] px-6 py-16 md:py-20 border-t border-[var(--border)]">
-        <div className="grid md:grid-cols-12 gap-10">
-          <div className="md:col-span-7">
-            <div className="mono text-[11px] tracking-[0.12em] text-[var(--muted)] mb-3">About</div>
-            <h2 className="display text-[32px] md:text-[38px] leading-[1.05]" style={{ textWrap: 'balance' }}>
-              Curious by default.<br /> Builder by habit.
-            </h2>
-            <p className="mt-6 text-[16px] leading-[1.8] max-w-[58ch] text-[var(--ink-60)]" style={{ textWrap: 'pretty' }}>
-              I&apos;m a Computer Science student in Brașov who got hooked on machine learning
-              somewhere between a computer vision course and a hackathon. Since then, most of
-              what I build involves teaching software to understand images.
-            </p>
-            <p className="mt-4 text-[16px] leading-[1.8] max-w-[58ch] text-[var(--ink-60)]" style={{ textWrap: 'pretty' }}>
-              I care about the unglamorous parts — clean data, honest evaluation, models that
-              hold up outside the demo. When I&apos;m not training something, I&apos;m probably at a
-              hackathon, reading papers, or fixing that one bug at 2 AM.
-            </p>
-            <div className="mt-8 flex gap-3">
-              <a href="/Curriculum Vitae.pdf" target="_blank" className="mono text-[12px] border border-[var(--ink)] px-5 py-2.5 bg-white hover:bg-[var(--ink)] hover:text-white transition-colors">Download CV ↗</a>
-              <span className="mono text-[12px] px-5 py-2.5 bg-[var(--bg-warm)] border border-[var(--border)] flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Open to ML internships</span>
-            </div>
-          </div>
-          <div className="md:col-span-5">
-            <div className="border border-[var(--border)] bg-white divide-y divide-[var(--border)]">
-              <div className="p-5 flex justify-between text-[13px]"><span className="text-[var(--muted)]">Name</span><span className="font-medium">Alexandru</span></div>
-              <div className="p-5 flex justify-between text-[13px]"><span className="text-[var(--muted)]">Email</span><a href="mailto:alexbalaban2004@gmail.com" className="underline">alexbalaban2004@gmail.com</a></div>
-              <div className="p-5 flex justify-between text-[13px]"><span className="text-[var(--muted)]">Location</span><span>Brașov, Romania</span></div>
-              <div className="p-5">
-                <div className="text-[13px] text-[var(--muted)] mb-3">Experience</div>
-                <div className="space-y-5 border-l-2 border-[var(--accent)] pl-4">
-                  <div><div className="text-[12px] text-[var(--muted)]">2025 — 2026</div><div className="text-[14px] font-medium">Embedded Systems Intern · Siemens Romania</div><div className="text-[13px] text-[var(--ink-60)]">Firmware development and hardware-software integration projects.</div></div>
-                  <div><div className="text-[12px] text-[var(--muted)]">2023 — Present</div><div className="text-[14px] font-medium">Computer Science · UNITBV</div><div className="text-[13px] text-[var(--ink-60)]">Focus: machine learning, computer vision</div></div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Stack — simple, honest */}
-      <section id="stack" className="reveal mx-auto max-w-[1280px] px-6 py-16 border-t border-[var(--border)]">
-        <div className="flex items-baseline justify-between mb-8">
-          <h2 className="display text-[32px] md:text-[38px]">Tools I work with</h2>
-          <span className="text-[13px] text-[var(--muted)] hidden sm:inline">Favorites first.</span>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="border border-[var(--border)] bg-white p-7">
-            <div className="text-[14px] font-semibold mb-4">Languages</div>
-            <div className="flex flex-wrap gap-2 text-[13px]"><span className="bg-[var(--ink)] text-white px-3 py-1.5">Python</span><span className="border border-[var(--border)] px-3 py-1.5">Java</span><span className="border border-[var(--border)] px-3 py-1.5">C#</span><span className="border border-[var(--border)] px-3 py-1.5">C/C++</span></div>
-          </div>
-          <div className="border border-[var(--border)] bg-white p-7">
-            <div className="text-[14px] font-semibold mb-4">Machine Learning</div>
-            <div className="flex flex-wrap gap-2 text-[13px]"><span className="bg-[var(--ink)] text-white px-3 py-1.5">PyTorch</span><span className="border border-[var(--border)] px-3 py-1.5">scikit-learn</span><span className="border border-[var(--border)] px-3 py-1.5">NumPy</span><span className="border border-[var(--border)] px-3 py-1.5">PIL</span></div>
-          </div>
-          <div className="border border-[var(--border)] bg-white p-7">
-            <div className="text-[14px] font-semibold mb-4">Also comfortable</div>
-            <div className="flex flex-wrap gap-2 text-[13px]"><span className="border border-[var(--border)] px-3 py-1.5">React</span><span className="border border-[var(--border)] px-3 py-1.5">MySQL</span><span className="border border-[var(--border)] px-3 py-1.5">Git</span><span className="border border-[var(--border)] px-3 py-1.5">Linux</span></div>
-          </div>
-        </div>
-      </section>
+          <Link href="#work" aria-label="Scroll to work" className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted transition-colors hover:text-ink md:flex">
+            <span className="mono text-[10px] tracking-[0.2em]">Scroll</span>
+            <span className="block h-8 w-px overflow-hidden bg-line-strong">
+              <span className="animate-scrollhint block h-3 w-px bg-ink" />
+            </span>
+          </Link>
+        </section>
 
-      {/* Contact — warm, inviting */}
-      <section id="contact" className="reveal mx-auto max-w-[1280px] px-6 py-16 border-t border-[var(--border)]">
-        <div className="grid md:grid-cols-12 gap-8">
-          <div className="md:col-span-7">
-            <h2 className="display text-[32px] md:text-[40px] leading-[1.02]" style={{ textWrap: 'balance' }}>
-              Let&apos;s impact the world<br />together<span className="text-[var(--accent)]">.</span>
-            </h2>
-            <p className="mt-4 text-[15px] text-[var(--ink-60)] max-w-[45ch]">Have an idea, an internship, or just want to talk ML? My inbox is always open.</p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a href="mailto:alexbalaban2004@gmail.com" className="inline-flex items-center gap-2 bg-[var(--ink)] text-white px-5 py-3 text-[14px] font-medium hover:bg-black transition-colors">alexbalaban2004@gmail.com</a>
-              <a href="https://github.com/AlexandruBlbn" className="inline-flex items-center gap-2 border border-[var(--border)] bg-white px-5 py-3 text-[14px] font-medium hover:border-[var(--ink)] transition-colors">GitHub ↗</a>
-              <a href="https://linkedin.com/in/AlexandruBlbn" className="inline-flex items-center gap-2 border border-[var(--border)] bg-white px-5 py-3 text-[14px] font-medium hover:border-[var(--ink)] transition-colors">LinkedIn ↗</a>
+        {/* Work */}
+        <section id="work" className="mx-auto max-w-[1280px] border-t border-line px-6 py-14 md:py-20">
+          <div className="mb-8 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+            <h2 className="display text-[36px] md:text-[44px]">Selected work</h2>
+            <p className="mono text-[11px] text-muted">
+              5 projects · 2023–2026 ·{" "}
+              <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-ink">github.com/AlexandruBlbn</a>
+            </p>
+          </div>
+
+          {/* 01 VasoJEPA */}
+          <article className="reveal mb-6 grid overflow-hidden border border-ink bg-surface md:grid-cols-12">
+            <figure className="flex flex-col justify-center border-b border-line bg-paper-warm p-5 sm:p-8 md:col-span-7 md:border-b-0 md:border-r">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                {[
+                  ["card-angiogram.png", "Angiogram", "ARCADE test angiogram with coronary arteries", ""],
+                  ["card-f0.png", "f0 · 64 × 64", "Stage-0 encoder features shown as colour, where the vessel tree stands out", "[image-rendering:pixelated]"],
+                  ["card-f1.png", "f1 · 32 × 32", "Stage-1 encoder features shown as colour, with the main vessels in pink", "[image-rendering:pixelated]"],
+                ].map(([file, label, alt, extra]) => (
+                  <div key={file}>
+                    <Image src={`${P}/vasojepa/${file}`} width={284} height={284} alt={alt} unoptimized className={`h-auto w-full ${extra}`} />
+                    <p className="mono mt-2 text-[10px] normal-case text-muted">{label}</p>
+                  </div>
+                ))}
+              </div>
+              <figcaption className="mt-4 text-[13px] leading-[1.55] text-ink-60 text-pretty">
+                What the pre-trained encoder sees in an ARCADE test image, a dataset it never trained on: its features,
+                reduced to three principal components and shown as colour, trace the vessel tree before any fine-tuning.
+              </figcaption>
+            </figure>
+            <div className="flex flex-col p-6 sm:p-7 md:col-span-5">
+              <Eyebrow n="01">Self-supervised learning · Bachelor’s thesis</Eyebrow>
+              <h3 className="mt-3 text-[22px] font-semibold leading-tight text-balance">
+                VasoJEPA: pre&#8209;training for coronary angiography without labels
+              </h3>
+              <p className="mt-3 text-[14px] leading-[1.65] text-ink-60 text-pretty">
+                A SwinV2-S encoder learns from {CORPUS.toLocaleString("en-US")} unlabeled angiograms by predicting the
+                features of hidden image blocks, placed over the vessels. Fine-tuned on the ARCADE benchmark, it beats the
+                same network trained from scratch at both vessel and stenosis segmentation.
+              </p>
+              <Stats items={[
+                [signed(vessels.gain), "Dice, vessels", "text-accent-ink"],
+                [signed(stenosis.gain), "Dice, stenosis", "text-accent-ink"],
+                ["250", "labels match 1,000"],
+              ]} />
+              <Tags items={["JEPA", "SwinV2-S", "Self-supervised", "PyTorch"]} />
+              <Link href="/vasojepa" className="mt-auto inline-flex w-fit items-center gap-2 pt-7 text-[14px] font-medium underline decoration-accent decoration-2 underline-offset-[6px] transition-colors hover:text-accent-ink">
+                Read the case study <span aria-hidden>→</span>
+              </Link>
+            </div>
+          </article>
+
+          {/* 02 Stenosis */}
+          <article className="reveal mb-6 grid overflow-hidden border border-ink bg-surface md:grid-cols-12">
+            <div className="relative h-[300px] border-b border-line bg-black sm:h-[380px] md:col-span-7 md:h-auto md:min-h-[420px] md:border-b-0 md:border-r">
+              <FigureToggle views={[
+                {
+                  label: "Result",
+                  content: (
+                    <>
+                      <Image src={`${P}/stenosis-segmentation-hd.jpg`} alt="Coronary angiogram with the segmented arteries in yellow and a stenosis in red" fill
+                        sizes="(min-width: 768px) 58vw, 100vw" className="object-cover" />
+                      <p className="mono absolute bottom-3 left-3 border border-white/20 bg-black/80 px-2.5 py-1 text-[10px] text-white">
+                        <span className="text-yellow-400">● Arteries</span> · <span className="text-red-400">● Stenosis</span>
+                      </p>
+                    </>
+                  ),
+                },
+                {
+                  label: "Architecture",
+                  content: (
+                    <div className="grid h-full grid-cols-2 gap-3 bg-white p-4 pt-14">
+                      {([
+                        ["stenosis-full-architecture.png", 681, 553, "Encoder-decoder pipeline: EfficientNetV2-S encoder stages and decoder stages with deep supervision heads", "Pipeline"],
+                        ["stenosis-decoder-modules.png", 712, 576, "Decoder modules: an up module with PixelShuffle and a fusion module with deformable convolutions and dual attention", "Decoder modules"],
+                      ] as const).map(([file, w, h, alt, label]) => (
+                        <figure key={file} className="flex min-h-0 flex-col items-center justify-center">
+                          <Image src={`${P}/${file}`} width={w} height={h} alt={alt}
+                            sizes="(min-width: 768px) 28vw, 50vw" className="h-auto max-h-[calc(100%-1.75rem)] w-auto max-w-full object-contain" />
+                          <figcaption className="mono mt-2 text-[10px] text-muted">{label}</figcaption>
+                        </figure>
+                      ))}
+                    </div>
+                  ),
+                },
+              ]} />
+            </div>
+            <div className="flex flex-col p-6 sm:p-7 md:col-span-5">
+              <Eyebrow n="02">Computer vision · Cardiology</Eyebrow>
+              <h3 className="mt-3 text-[22px] font-semibold leading-tight text-balance">
+                A deep learning approach to stenosis detection and coronary artery segmentation
+              </h3>
+              <p className="mt-3 text-[14px] leading-[1.65] text-ink-60 text-pretty">
+                A dual-task model that segments the coronary tree and localizes focal stenoses on X-ray angiograms. An
+                EfficientNetV2 backbone feeds a custom decoder with deformable convolutions (DCNv2) and dual attention, and
+                deep supervision helps it trace thin vascular branches.
+              </p>
+              <Stats items={[["80.51%", "artery F1"], ["60.21%", "stenosis F1", "text-accent-ink"]]} />
+              <Tags items={["EfficientNetV2", "DCNv2", "Dual attention", "PyTorch", "ARCADE"]} />
+            </div>
+          </article>
+
+          {/* 03 Prostate */}
+          <article className="reveal mb-6 grid overflow-hidden border border-line bg-surface md:grid-cols-12">
+            <div className="grid grid-cols-2 gap-px border-b border-line bg-black md:col-span-7 md:border-b-0 md:border-r">
+              <Image src={`${P}/Seg.png`} width={260} height={259} alt="Axial prostate MRI slice with the segmented gland outlined in green and yellow"
+                sizes="(min-width: 768px) 29vw, 50vw" className="h-full w-full object-contain" />
+              <Image src={`${P}/ProstataPNG.png`} width={341} height={318} alt="Axial prostate MRI slice with a red model output overlay"
+                sizes="(min-width: 768px) 29vw, 50vw" className="h-full w-full object-contain" />
+            </div>
+            <div className="flex flex-col p-6 sm:p-7 md:col-span-5">
+              <Eyebrow n="03">Machine learning · MRI</Eyebrow>
+              <h3 className="mt-3 text-[22px] font-semibold leading-tight text-balance">Prostate cancer detection with deep neural networks</h3>
+              <p className="mt-3 text-[14px] leading-[1.65] text-ink-60 text-pretty">
+                An Attention U-Net that segments the prostate on MRI, evaluated with 5-fold cross-validation, with a medical
+                imaging preprocessing pipeline built on NiBabel and PIL.
+              </p>
+              <Tags items={["Attention U-Net", "5-fold CV", "MRI", "NiBabel", "PyTorch"]} />
+              <RepoLink href="https://github.com/AlexandruBlbn/ProstateSegmentation" />
+            </div>
+          </article>
+
+          {/* 04 + 05 hardware */}
+          <div className="grid gap-6 md:grid-cols-12">
+            <article className="reveal group flex flex-col overflow-hidden border border-line bg-surface md:col-span-7">
+              <div className="relative h-[260px] overflow-hidden border-b border-line bg-paper-warm">
+                <Image src={`${P}/CuraBot.jpg`} alt="Curabot: a red Braccio robotic arm mounted next to its control box" fill
+                  sizes="(min-width: 768px) 58vw, 100vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+              </div>
+              <div className="flex flex-1 flex-col p-6">
+                <Eyebrow n="04">Robotics · Siemens internship</Eyebrow>
+                <h3 className="mt-2 text-[19px] font-semibold">Curabot: a voice and vision robotic arm</h3>
+                <p className="mt-2 text-[14px] leading-[1.6] text-ink-60">
+                  A robotic arm that helps immobilized patients. Voice commands and a residual CNN running on a Raspberry Pi
+                  drive an Arduino-controlled Braccio arm.
+                </p>
+                <Tags items={["Raspberry Pi", "Arduino", "Braccio", "PyTorch", "C++"]} />
+                <RepoLink href="https://github.com/AlexandruBlbn/Internship-Siemens" />
+              </div>
+            </article>
+            <article className="reveal group flex flex-col overflow-hidden border border-line bg-surface md:col-span-5">
+              <div className="relative h-[260px] overflow-hidden border-b border-line bg-paper-warm">
+                <Image src={`${P}/tensiometru.jpeg`} alt="Soldering the medical multimeter's circuit board, with a blood pressure cuff on the arm" fill
+                  sizes="(min-width: 768px) 42vw, 100vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+              </div>
+              <div className="flex flex-1 flex-col p-6">
+                <Eyebrow n="05">Firmware</Eyebrow>
+                <h3 className="mt-2 text-[19px] font-semibold">Medical multimeter</h3>
+                <p className="mt-2 text-[14px] leading-[1.6] text-ink-60">
+                  An Arduino Mega 2560 device that measures blood pressure, heart rate and oxygen saturation: my first
+                  end-to-end hardware project.
+                </p>
+                <Tags items={["C", "Arduino", "Microchip"]} />
+                <RepoLink href="https://github.com/AlexandruBlbn/Multimetru-Siemens" />
+              </div>
+            </article>
+          </div>
+        </section>
+
+        {/* About */}
+        <section id="about" className="reveal mx-auto max-w-[1280px] border-t border-line px-6 py-16 md:py-20">
+          <div className="grid gap-10 md:grid-cols-12">
+            <div className="md:col-span-7">
+              <p className="mono mb-3 text-[11px] text-muted">About</p>
+              <h2 className="display text-[36px] leading-[1.02] text-balance md:text-[44px]">
+                Curious by default.<br /> Builder by habit.
+              </h2>
+              <p className="mt-6 max-w-[58ch] text-[16px] leading-[1.8] text-ink-60 text-pretty">
+                I&apos;m a Computer Science student in Brașov who got hooked on machine learning somewhere between a
+                computer vision course and a hackathon. Since then, most of what I build involves teaching software to
+                understand images. My bachelor&apos;s thesis, VasoJEPA, asks how much a model can learn about coronary
+                arteries before anyone labels a single image.
+              </p>
+              <p className="mt-4 max-w-[58ch] text-[16px] leading-[1.8] text-ink-60 text-pretty">
+                I care about the unglamorous parts — clean data, honest evaluation, models that hold up outside the demo.
+                When I&apos;m not training something, I&apos;m probably at a hackathon, reading papers, or fixing that one
+                bug at 2 AM.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a href={CV} target="_blank" rel="noopener" className="mono whitespace-nowrap border border-ink bg-surface px-5 py-2.5 text-[12px] transition-colors hover:bg-ink hover:text-white">
+                  Download CV ↗
+                </a>
+                <span className="mono flex items-center gap-2 whitespace-nowrap border border-line bg-paper-warm px-5 py-2.5 text-[12px]">
+                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-emerald-600 motion-safe:animate-pulse" /> Open to ML internships
+                </span>
+              </div>
+            </div>
+            <div className="md:col-span-5">
+              <dl className="divide-y divide-line border border-line bg-surface text-[14px]">
+                <div className="flex justify-between gap-4 p-5"><dt className="text-muted">Name</dt><dd className="font-medium">Alexandru Balaban</dd></div>
+                <div className="flex justify-between gap-4 p-5"><dt className="text-muted">Email</dt><dd><a href={`mailto:${EMAIL}`} className="break-all underline underline-offset-2">{EMAIL}</a></dd></div>
+                <div className="flex justify-between gap-4 p-5"><dt className="text-muted">Location</dt><dd>Brașov, Romania</dd></div>
+                <div className="p-5">
+                  <dt className="mb-4 text-muted">Experience</dt>
+                  <dd>
+                    <ol className="space-y-5 border-l-2 border-accent pl-4">
+                      <li>
+                        <p className="text-[12px] text-muted">2025 — 2026</p>
+                        <p className="font-medium">Embedded Systems Intern · Siemens Romania</p>
+                        <p className="text-[13px] text-ink-60">Firmware development and hardware-software integration projects.</p>
+                      </li>
+                      <li>
+                        <p className="text-[12px] text-muted">2023 — Present</p>
+                        <p className="font-medium">Electrical Engineering & Computer Science · UNITBV</p>
+                        <p className="text-[13px] text-ink-60">Automation and Applied Informatics. Thesis: VasoJEPA.</p>
+                      </li>
+                    </ol>
+                  </dd>
+                </div>
+              </dl>
             </div>
           </div>
-          <form className="md:col-span-5 border border-[var(--border)] bg-white p-6">
-            <div className="text-[14px] font-medium mb-5">Send a message</div>
-            <input placeholder="Your name" className="w-full border border-[var(--border)] px-3.5 py-3 text-[14px] mb-3 outline-none focus:border-[var(--ink)] transition-colors" />
-            <input placeholder="Email" className="w-full border border-[var(--border)] px-3.5 py-3 text-[14px] mb-3 outline-none focus:border-[var(--ink)] transition-colors" />
-            <textarea placeholder="What&apos;s on your mind?" rows={3} className="w-full border border-[var(--border)] px-3.5 py-3 text-[14px] mb-3 outline-none focus:border-[var(--ink)] transition-colors" />
-            <button type="button" className="w-full bg-[var(--ink)] text-white text-[14px] font-medium py-3.5 hover:bg-black transition-colors">Send →</button>
-          </form>
-        </div>
-      </section>
+        </section>
 
-      <footer className="border-t border-[var(--border)] mt-6">
-        <div className="mx-auto max-w-[1280px] px-6 py-6 flex flex-col md:flex-row justify-between gap-3 text-[13px] text-[var(--muted)]">
-          <span>© 2026 Alexandru Balaban</span>
-          <a href="#home" className="hover:text-[var(--ink)] transition-colors">Back to top ↑</a>
-        </div>
-      </footer>
+        {/* Stack */}
+        <section id="stack" className="reveal mx-auto max-w-[1280px] border-t border-line px-6 py-16">
+          <div className="mb-8 flex items-baseline justify-between gap-6">
+            <h2 className="display text-[36px] md:text-[44px]">Tools I work with</h2>
+            <p className="hidden text-[13px] text-muted sm:block">Favorites first.</p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {([
+              ["Languages", ["Python", "C/C++", "Java", "C#"]],
+              ["Machine learning", ["PyTorch", "timm", "NumPy", "OpenCV", "scikit-image", "scikit-learn", "NiBabel"]],
+              ["Hardware and more", ["Arduino", "Raspberry Pi", "Git", "Linux", "React", "MySQL"]],
+            ] as const).map(([title, items]) => (
+              <div key={title} className="border border-line bg-surface p-7">
+                <h3 className="mb-4 text-[15px] font-semibold">{title}</h3>
+                <ul className="flex flex-wrap gap-2 text-[13px]">
+                  {items.map((t, i) => (
+                    <li key={t} className={i === 0 ? "bg-ink px-3 py-1.5 text-white" : "border border-line px-3 py-1.5"}>{t}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section id="contact" className="reveal mx-auto max-w-[1280px] border-t border-line px-6 py-16 md:py-20">
+          <div className="grid gap-10 md:grid-cols-12">
+            <div className="md:col-span-7">
+              <h2 className="display text-[36px] leading-[1.02] text-balance md:text-[44px]">
+                Let&apos;s impact the world<br />together<span className="text-accent">.</span>
+              </h2>
+              <p className="mt-4 max-w-[45ch] text-[16px] leading-[1.7] text-ink-60">
+                Have an idea, an internship, or just want to talk ML? My inbox is always open.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <a href={`mailto:${EMAIL}`} className="inline-flex items-center bg-ink px-5 py-3 text-[14px] font-medium text-white transition-colors hover:bg-black">{EMAIL}</a>
+                <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="inline-flex items-center border border-line bg-surface px-5 py-3 text-[14px] font-medium transition-colors hover:border-ink">GitHub ↗</a>
+                <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="inline-flex items-center border border-line bg-surface px-5 py-3 text-[14px] font-medium transition-colors hover:border-ink">LinkedIn ↗</a>
+              </div>
+            </div>
+            <div className="md:col-span-5">
+              <ContactForm />
+            </div>
+          </div>
+        </section>
+      </main>
+      <SiteFooter />
     </div>
   );
 }

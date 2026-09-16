@@ -1,0 +1,1 @@
+VasoJEPA by Alexandru Balaban: an ARCADE test angiogram and its pre-trained encoder features, with gains of 2.52 Dice on vessel and 2.97 Dice on stenosis segmentation over training from scratch.
